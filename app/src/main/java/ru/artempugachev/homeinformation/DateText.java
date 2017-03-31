@@ -16,8 +16,7 @@ public class DateText {
      * */
 
     public String print() {
-        String formatted = print(Calendar.getInstance(), Locale.getDefault());
-        return formatted;
+        return print(Calendar.getInstance(), Locale.getDefault());
     }
 
     public String print(Calendar calendar, Locale locale) {
