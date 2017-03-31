@@ -15,12 +15,12 @@ public class DateText {
      * */
 
     public String print() {
-        return print(new Date());
+        return print(new Date(), Locale.getDefault());
     }
 
-    public String print(Date date) {
+    public String print(Date date, Locale locale) {
         String formatted;
-        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
         formatted = df.format(date);
         return formatted;
     }
