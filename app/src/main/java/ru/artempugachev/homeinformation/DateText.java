@@ -1,6 +1,7 @@
 package ru.artempugachev.homeinformation;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -15,13 +16,14 @@ public class DateText {
      * */
 
     public String print() {
-        return print(new Date(), Locale.getDefault());
+        String formatted = print(Calendar.getInstance(), Locale.getDefault());
+        return formatted;
     }
 
-    public String print(Date date, Locale locale) {
+    public String print(Calendar calendar, Locale locale) {
         String formatted;
-        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-        formatted = df.format(date);
+        DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, locale);
+        formatted = df.format(calendar.getTime());
         return formatted;
     }
 }
