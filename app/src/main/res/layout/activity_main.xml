@@ -5,16 +5,25 @@
     android:layout_height="match_parent"
     tools:context="ru.artempugachev.homeinformation.MainActivity"
     android:background="@color/colorBlack"
+    android:orientation="vertical"
     android:padding="@dimen/margin"
     >
 
-
     <TextClock
-        android:id="@+id/clock"
+        android:id="@+id/clockView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
         style="@style/clock"
         />
+
+    <TextClock
+        android:id="@+id/dateView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        style="@style/date"
+        />
+
 
 </LinearLayout>

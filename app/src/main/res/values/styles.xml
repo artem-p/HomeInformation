@@ -12,4 +12,10 @@
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">48sp</item>
     </style>
+
+    <style name="date">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
 </resources>
