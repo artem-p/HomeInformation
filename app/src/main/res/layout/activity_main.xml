@@ -5,13 +5,15 @@
     android:layout_height="match_parent"
     tools:context="ru.artempugachev.homeinformation.MainActivity"
     android:background="@color/colorBlack"
+    android:padding="@dimen/margin"
     >
 
-    <TextView
-        android:layout_width="wrap_content"
+
+    <TextClock
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textColor="@color/colorWhite"
+        android:gravity="end"
+        style="@style/clock"
         />
 
 </LinearLayout>
