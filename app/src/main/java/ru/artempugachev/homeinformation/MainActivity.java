@@ -4,6 +4,12 @@ import android.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextClock;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,6 +19,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         hideStatusBar();
+        setUpDateView();
+    }
+
+    private void setUpDateView() {
+        TextClock dateView = (TextClock) findViewById(R.id.dateView);
+        DateText dateText = new DateText();
+        dateView.setFormat12Hour(dateText.print());
+        dateView.setFormat24Hour(dateText.print());
     }
 
     private void hideStatusBar() {
