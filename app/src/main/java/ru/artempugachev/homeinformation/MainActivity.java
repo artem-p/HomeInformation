@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextClock;
+import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
         hideStatusBar();
         setUpDateView();
+
+        TextView curWeatherTextView = (TextView) findViewById(R.id.curWeatherTextView);
+        curWeatherTextView.setText(BuildConfig.DARK_SKY_API_KEY);
     }
 
     private void setUpDateView() {

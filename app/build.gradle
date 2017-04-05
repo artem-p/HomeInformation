@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+def DARK_SKY_API_KEY = '"' + DARK_SKY_API_KEY_PROP + '"' ?: '"Define dark sky api key"';
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -10,6 +12,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField 'String', 'DARK_SKY_API_KEY', DARK_SKY_API_KEY
     }
     buildTypes {
         release {
