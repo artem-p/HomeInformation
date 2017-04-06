@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">HomeInformation</string>
     <string name="cannot_get_location">Cannot get location</string>
+    <string name="no_google_play_services">There are no google play services on device</string>
 </resources>
