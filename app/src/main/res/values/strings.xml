@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HomeInformation</string>
+    <string name="cannot_get_location">Cannot get location</string>
 </resources>
