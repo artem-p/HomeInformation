@@ -20,16 +20,10 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private Location mLocation;
     private GoogleApiClient mGoogleApiClient;
     private final static int REQUEST_LOCATION = 1;
 
