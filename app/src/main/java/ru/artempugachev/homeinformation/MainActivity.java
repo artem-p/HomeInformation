@@ -144,13 +144,32 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
+    protected void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkPlayServices();
+    }
+
+    /**
+     * Google api callback methods
+     */
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        // Once connected with google api, get the location
+        displayLocation();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        mGoogleApiClient.connect();
     }
 
     @Override
