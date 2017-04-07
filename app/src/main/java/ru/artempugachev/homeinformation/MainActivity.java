@@ -2,6 +2,7 @@ package ru.artempugachev.homeinformation;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -45,6 +46,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (checkPlayServices()) {
             buildGoogleApiClient();
         }
+
+        startWeatherService();
+    }
+
+    private void startWeatherService() {
+        Intent weatherServiceIntent = new Intent(MainActivity.this, WeatherService.class);
+        startService(weatherServiceIntent);
     }
 
     private void saveLocation() {
