@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             buildGoogleApiClient();
         }
 
+        // todo make AsyncTask to fetch weather and update UI
     }
 
     private void saveLocation() {
