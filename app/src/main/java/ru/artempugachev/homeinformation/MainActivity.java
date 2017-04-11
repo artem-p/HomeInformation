@@ -47,12 +47,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             buildGoogleApiClient();
         }
 
-        startWeatherService();
-    }
-
-    private void startWeatherService() {
-        Intent weatherServiceIntent = new Intent(MainActivity.this, WeatherService.class);
-        startService(weatherServiceIntent);
     }
 
     private void saveLocation() {
