@@ -184,11 +184,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      * Fetch weather from weather provider and update ui
      * */
     private class UpdateWeatherTask extends AsyncTask<Void, Void, Void> {
-
         @Override
         protected Void doInBackground(Void... params) {
             return null;
         }
 
+        /**
+         * Read coordinates from preferences
+         * */
+        private CoordinateStr getCoordsFromPrefs(SharedPreferences preferences) {
+            CoordinateStr coords;
+            String lat = preferences.getString(getString(R.string.pref_lat), "");
+            String lon = preferences.getString(getString(R.string.pref_lon), "");
+            coords = new CoordinateStr(lat, lon);
+            return coords;
+        }
     }
 }
