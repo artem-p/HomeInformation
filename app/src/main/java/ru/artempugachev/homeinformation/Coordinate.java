@@ -14,4 +14,12 @@ public final class Coordinate {
         this.lat = lat;
         this.lon = lon;
     }
+
+    /**
+     * Return String with weather URl path (60, 30)
+     * */
+    public String toUrlPath() {
+        // todo do with test
+        return null;
+    }
 }
