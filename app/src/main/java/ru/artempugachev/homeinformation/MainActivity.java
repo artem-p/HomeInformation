@@ -2,7 +2,6 @@ package ru.artempugachev.homeinformation;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -22,6 +21,8 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -186,18 +187,29 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private class UpdateWeatherTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
+            // first we need coordinates
+            SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+            Coordinate coord = getCoordsFromPrefs(preferences);
+            if (coord != null) {
+                // todo create forecast url
+            }
             return null;
         }
 
         /**
          * Read coordinates from preferences
          * */
-        private CoordinateStr getCoordsFromPrefs(SharedPreferences preferences) {
-            CoordinateStr coords;
+        @Nullable
+        private Coordinate getCoordsFromPrefs(SharedPreferences preferences) {
             String lat = preferences.getString(getString(R.string.pref_lat), "");
             String lon = preferences.getString(getString(R.string.pref_lon), "");
-            coords = new CoordinateStr(lat, lon);
-            return coords;
+
+            if (lat.equals("") || lon.equals("")) {
+                return null;
+            } else {
+
+                return new Coordinate(lat, lon);
+            }
         }
     }
 }

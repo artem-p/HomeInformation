@@ -6,11 +6,11 @@ package ru.artempugachev.homeinformation;
  * So we need Strings
  */
 
-public final class CoordinateStr {
+public final class Coordinate {
     private final String lat;
     private final String lon;
 
-    public CoordinateStr(String lat, String lon) {
+    public Coordinate(String lat, String lon) {
         this.lat = lat;
         this.lon = lon;
     }
