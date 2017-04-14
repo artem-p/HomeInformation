@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             buildGoogleApiClient();
         }
 
+        UpdateWeatherTask updateWeatherTask = new UpdateWeatherTask();
+        updateWeatherTask.execute();
     }
 
     private void saveLocation() {
@@ -191,7 +193,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
             Coordinate coord = getCoordsFromPrefs(preferences);
             if (coord != null) {
-                // todo create forecast url
+                try {
+                    WeatherProvider provider = new WeatherProvider(BuildConfig.DARK_SKY_API_KEY);
+                    Weather weather = provider.fetchCurrent(coord);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return null;
         }

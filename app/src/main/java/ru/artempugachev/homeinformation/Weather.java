@@ -9,6 +9,7 @@ import org.json.JSONObject;
 public class Weather {
     private final long timestamp;
     private final String summary;
+    private final String forecastSummary;
     private final String icon;
     private final float temperature;
     private final float apparentTemperature;
@@ -16,9 +17,11 @@ public class Weather {
     private final float windSpeed;
     private final float windDirection;
 
-    public Weather(long timestamp, String summary, String icon, float temperature, float apparentTemperature, float humidity, float windSpeed, float windDirection) {
+    public Weather(long timestamp, String summary,
+                   String forecastSummary, String icon, float temperature, float apparentTemperature, float humidity, float windSpeed, float windDirection) {
         this.timestamp = timestamp;
         this.summary = summary;
+        this.forecastSummary = forecastSummary;
         this.icon = icon;
         this.temperature = temperature;
         this.apparentTemperature = apparentTemperature;

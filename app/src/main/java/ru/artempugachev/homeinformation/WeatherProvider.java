@@ -30,6 +30,16 @@ public class WeatherProvider {
     private final String UNITS_PARAM_KEY = "units";
     private final String UNITS_PARAM_VALUE = "si";
     private final String CURRENTLY_JSON_PARAM = "currently";
+    private final String HOURLY_JSON_PARAM = "hourly";
+    private final String TIMESTAMP_JSON_PARAM = "time";
+    private final String SUMMARY_JSON_PARAM = "summary";
+    private final String ICON_JSON_PARAM = "icon";
+    private final String TEMPERATURE_JSON_PARAM = "temperature";
+    private final String APPARENT_TEMPERATURE_JSON_PARAM = "apparentTemperature";
+    private final String HUMIDITY_JSON_PARAM = "humidity";
+    private final String WIND_SPEED_JSON_PARAM = "windSpeed";
+    private final String WIND_DIR_JSON_PARAM = "windBearing";
+
 
 
     public WeatherProvider(@NonNull String mApiKey) {
@@ -40,9 +50,10 @@ public class WeatherProvider {
     public Weather fetchCurrent(Coordinate coordinate) throws IOException, JSONException {
         URL url = buildCurrentUrl(coordinate);
         String respStr = fetchByUrl(url);
-        JSONObject forecastJson = new JSONObject(respStr);
-        JSONObject currentlyJson = forecastJson.getJSONObject(CURRENTLY_JSON_PARAM);
-        return buildWeatherFromJson(currentlyJson);
+        JSONObject weatherJson = new JSONObject(respStr);
+        JSONObject currentlyJson = weatherJson.getJSONObject(CURRENTLY_JSON_PARAM);
+        JSONObject forecastJson = weatherJson.getJSONObject(HOURLY_JSON_PARAM);
+        return buildWeatherFromJson(currentlyJson, forecastJson);
     }
 
     private String fetchByUrl(URL url) throws IOException {
@@ -54,8 +65,19 @@ public class WeatherProvider {
         return response.body().string();
     }
 
-    public Weather buildWeatherFromJson(JSONObject jsonWeather) {
-
+    public Weather buildWeatherFromJson(JSONObject jsonCurrent, JSONObject jsonForecast) throws JSONException {
+        String timestampStr = jsonCurrent.getString(TIMESTAMP_JSON_PARAM);
+        String summary = jsonCurrent.getString(SUMMARY_JSON_PARAM);
+        String icon = jsonCurrent.getString(ICON_JSON_PARAM);
+        String temperatureStr = jsonCurrent.getString(TEMPERATURE_JSON_PARAM);
+        String apparentTemperatureStr = jsonCurrent.getString(APPARENT_TEMPERATURE_JSON_PARAM);
+        String humidityStr = jsonCurrent.getString(HUMIDITY_JSON_PARAM);
+        String windSpeedStr = jsonCurrent.getString(WIND_SPEED_JSON_PARAM);
+        String windDirStr = jsonCurrent.getString(WIND_DIR_JSON_PARAM);
+        String forecastSummary = jsonForecast.getString(SUMMARY_JSON_PARAM);
+        return new Weather(Long.parseLong(timestampStr), summary, forecastSummary, icon,
+                Float.parseFloat(temperatureStr), Float.parseFloat(apparentTemperatureStr),
+                Float.parseFloat(humidityStr), Float.parseFloat(windSpeedStr), Float.parseFloat(windDirStr));
     }
 
 
