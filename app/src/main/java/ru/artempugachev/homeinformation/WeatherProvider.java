@@ -3,8 +3,16 @@ package ru.artempugachev.homeinformation;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Class for weather provider. Weather provider responds for
@@ -21,6 +29,7 @@ public class WeatherProvider {
     private final String LANG_PARAM_VALUE = "ru";
     private final String UNITS_PARAM_KEY = "units";
     private final String UNITS_PARAM_VALUE = "si";
+    private final String CURRENTLY_JSON_PARAM = "currently";
 
 
     public WeatherProvider(@NonNull String mApiKey) {
@@ -28,8 +37,25 @@ public class WeatherProvider {
     }
 
 
-    public Weather fetchCurrent(Coordinate coordinate) {
-        return null;
+    public Weather fetchCurrent(Coordinate coordinate) throws IOException, JSONException {
+        URL url = buildCurrentUrl(coordinate);
+        String respStr = fetchByUrl(url);
+        JSONObject forecastJson = new JSONObject(respStr);
+        JSONObject currentlyJson = forecastJson.getJSONObject(CURRENTLY_JSON_PARAM);
+        return buildWeatherFromJson(currentlyJson);
+    }
+
+    private String fetchByUrl(URL url) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Response response = client.newCall(request).execute();
+        return response.body().string();
+    }
+
+    public Weather buildWeatherFromJson(JSONObject jsonWeather) {
+
     }
 
 

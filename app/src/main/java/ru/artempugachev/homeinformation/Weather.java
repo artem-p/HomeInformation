@@ -1,5 +1,7 @@
 package ru.artempugachev.homeinformation;
 
+import org.json.JSONObject;
+
 /**
  * Current weather and forecast summary
  */
@@ -24,4 +26,5 @@ public class Weather {
         this.windSpeed = windSpeed;
         this.windDirection = windDirection;
     }
+
 }
