@@ -19,7 +19,6 @@ public final class Coordinate {
      * Return String with weather URl path (60, 30)
      * */
     public String toUrlPath() {
-        // todo do with test
-        return null;
+        return lat + "," + lon;
     }
 }
