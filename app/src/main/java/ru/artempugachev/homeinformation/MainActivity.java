@@ -186,9 +186,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      *
      * Fetch weather from weather provider and update ui
      * */
-    private class UpdateWeatherTask extends AsyncTask<Void, Void, Void> {
+    private class UpdateWeatherTask extends AsyncTask<Void, Void, Weather> {
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Weather doInBackground(Void... params) {
             // first we need coordinates
             SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
             Coordinate coord = getCoordsFromPrefs(preferences);
@@ -196,11 +196,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 try {
                     WeatherProvider provider = new WeatherProvider(BuildConfig.DARK_SKY_API_KEY);
                     Weather weather = provider.fetchCurrent(coord);
+                    return weather;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Weather weather) {
+            super.onPostExecute(weather);
+
         }
 
         /**
