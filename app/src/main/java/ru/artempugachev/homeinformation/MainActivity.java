@@ -208,7 +208,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         protected void onPostExecute(Weather weather) {
             super.onPostExecute(weather);
 
-            // todo update ui
+
+            // todo get current weather info and update ui
         }
 
         /**

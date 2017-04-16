@@ -30,4 +30,9 @@ public class Weather {
         this.windDirection = windDirection;
     }
 
+    public String toCurrentWeather() {
+        // todo 1 return current weather info: temperature and current summary
+        return String.valueOf(temperature);
+    }
+
 }
