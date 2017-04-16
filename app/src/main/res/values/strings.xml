@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">HomeInformation</string>
     <string name="cannot_get_location">Cannot get location</string>
     <string name="no_google_play_services">There are no google play services on device</string>
@@ -6,4 +6,7 @@
     <string name="pref_lon" translatable="false">pref_lon</string>
     <string name="lat_par" translatable="false">lat_par</string>
     <string name="lon_par" translatable="false">lon_par</string>
+    <string name="temp">
+        <xliff:g id="temp">%1.0f</xliff:g> °C
+    </string>
 </resources>
