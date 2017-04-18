@@ -32,7 +32,7 @@ public class Weather {
         this.windDirection = windDirection;
     }
 
-    public String toCurrentWeather() {
+    public String toCurrent() {
         return String.format(Locale.ENGLISH, "%1.1f °C %s", temperature, summary);
     }
 

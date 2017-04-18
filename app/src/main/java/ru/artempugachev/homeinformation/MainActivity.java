@@ -22,8 +22,6 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-import java.net.URL;
-
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
@@ -41,9 +39,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setUpDateView();
 
         mSharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
-
-        TextView curWeatherTextView = (TextView) findViewById(R.id.curWeatherTextView);
-        curWeatherTextView.setText(BuildConfig.DARK_SKY_API_KEY);
 
         if (checkPlayServices()) {
             buildGoogleApiClient();
@@ -192,24 +187,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             // first we need coordinates
             SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
             Coordinate coord = getCoordsFromPrefs(preferences);
+            Weather weather = null;
             if (coord != null) {
                 try {
                     WeatherProvider provider = new WeatherProvider(BuildConfig.DARK_SKY_API_KEY);
-                    Weather weather = provider.fetchCurrent(coord);
+                    weather = provider.fetchCurrent(coord);
                     return weather;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            return null;
+            return weather;
         }
 
         @Override
         protected void onPostExecute(Weather weather) {
             super.onPostExecute(weather);
 
-
-            // todo get current weather info and update ui
+            if (weather != null) {
+                TextView curWeatherTextView = (TextView) findViewById(R.id.curWeatherTextView);
+                curWeatherTextView.setText(weather.toCurrent());
+            }
         }
 
         /**
