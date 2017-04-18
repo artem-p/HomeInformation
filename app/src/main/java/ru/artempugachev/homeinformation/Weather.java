@@ -2,6 +2,8 @@ package ru.artempugachev.homeinformation;
 
 import org.json.JSONObject;
 
+import java.util.Locale;
+
 /**
  * Current weather and forecast summary
  */
@@ -31,8 +33,7 @@ public class Weather {
     }
 
     public String toCurrentWeather() {
-        // todo 1 return current weather info: temperature and current summary
-        return String.valueOf(temperature);
+        return String.format(Locale.ENGLISH, "%1.1f °C %s", temperature, summary);
     }
 
 }
