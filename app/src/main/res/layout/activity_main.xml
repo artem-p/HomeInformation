@@ -30,6 +30,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/curWeatherTextView"
         style="@style/weather"
+        android:layout_marginTop="@dimen/margin"
+        android:gravity="end"
         />
 
 </LinearLayout>
