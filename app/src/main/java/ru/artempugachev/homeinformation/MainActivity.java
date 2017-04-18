@@ -207,6 +207,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             if (weather != null) {
                 TextView curWeatherTextView = (TextView) findViewById(R.id.curWeatherTextView);
                 curWeatherTextView.setText(weather.toCurrent());
+
+                TextView forecastTextView = (TextView) findViewById(R.id.forecastTextView);
+                forecastTextView.setText(weather.toForecastSummary());
             }
         }
 

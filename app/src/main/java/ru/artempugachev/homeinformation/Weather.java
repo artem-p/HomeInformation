@@ -36,4 +36,7 @@ public class Weather {
         return String.format(Locale.ENGLISH, "%1.1f °C %s", temperature, summary);
     }
 
+    public String toForecastSummary() {
+        return forecastSummary;
+    }
 }
