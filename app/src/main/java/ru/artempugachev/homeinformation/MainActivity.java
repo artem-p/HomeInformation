@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private SharedPreferences mSharedPreferences;
     private Timer mWeatherTimer;
     private TextView mCurWeatherTextView;
+    private TextView mForecastTextView;
     private ProgressBar mWeatherProgressBar;
 
     @Override
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private void setUpViews() {
         mCurWeatherTextView = (TextView) findViewById(R.id.curWeatherTextView);
+        mForecastTextView = (TextView) findViewById(R.id.forecastTextView);
         mWeatherProgressBar = (ProgressBar) findViewById(R.id.pb_weather);
         setUpDateView();
     }
@@ -221,6 +223,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            if (mCurWeatherTextView.getText().equals("")) {
+                //  Show progress bar when first loading
+                showProgressBar();
+            }
         }
 
         @Override
@@ -244,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         @Override
         protected void onPostExecute(Weather weather) {
             super.onPostExecute(weather);
+            showWeatherViews();
 
             if (weather != null) {
                 TextView curWeatherTextView = (TextView) findViewById(R.id.curWeatherTextView);
@@ -252,6 +259,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 TextView forecastTextView = (TextView) findViewById(R.id.forecastTextView);
                 forecastTextView.setText(weather.toForecastSummary());
             }
+        }
+
+        /**
+         * When loading, show progress bar and hide views
+         * */
+        private void showProgressBar() {
+            mCurWeatherTextView.setVisibility(View.INVISIBLE);
+            mForecastTextView.setVisibility(View.INVISIBLE);
+            mWeatherProgressBar.setVisibility(View.VISIBLE);
+        }
+
+
+        /**
+         * After loading, hide progress bar and show views
+         * */
+        private void showWeatherViews() {
+            mCurWeatherTextView.setVisibility(View.VISIBLE);
+            mForecastTextView.setVisibility(View.VISIBLE);
+            mWeatherProgressBar.setVisibility(View.INVISIBLE);
         }
 
         /**

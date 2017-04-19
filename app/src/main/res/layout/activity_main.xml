@@ -44,6 +44,7 @@
             android:id="@+id/pb_weather"
             android:layout_gravity="center"
             android:visibility="invisible"
+            android:gravity="end"
             />
     </FrameLayout>
 
