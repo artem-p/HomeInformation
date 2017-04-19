@@ -31,13 +31,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         GoogleApiClient.OnConnectionFailedListener {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final int REQUEST_CALENDAR = 300;
     private GoogleApiClient mGoogleApiClient;
-    private final static int REQUEST_LOCATION = 1;
+    private final static int REQUEST_LOCATION = 100;
     private SharedPreferences mSharedPreferences;
     private Timer mWeatherTimer;
     private TextView mCurWeatherTextView;
     private TextView mForecastTextView;
     private ProgressBar mWeatherProgressBar;
+    private TextView mEventsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +55,34 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
         runWeatherTask();
+        runCalendarTask();
+    }
 
+    private void runCalendarTask() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
+                != PackageManager.PERMISSION_GRANTED) {
+            //  request permissions. Then catch callback
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_CALENDAR},
+                    REQUEST_CALENDAR);
+        } else {
+            // calendar permission granted
+            getCalendarEvents();
+        }
+
+    }
+
+    private void getCalendarEvents() {
+        CalendarModule calendarModule = new CalendarModule();
+        String events = calendarModule.getEvents(this);
+        mEventsTextView.setText(events);
     }
 
     private void setUpViews() {
         mCurWeatherTextView = (TextView) findViewById(R.id.curWeatherTextView);
         mForecastTextView = (TextView) findViewById(R.id.forecastTextView);
         mWeatherProgressBar = (ProgressBar) findViewById(R.id.pb_weather);
+        mEventsTextView = (TextView) findViewById(R.id.eventsTextView);
         setUpDateView();
     }
 
@@ -89,16 +112,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     REQUEST_LOCATION);
         } else {
             // permissions granted, get location
-            Location location = getLocation();
-            if (location != null) {
-                writeLocationToPrefs(location, mSharedPreferences);
-            } else {
-                Toast.makeText(MainActivity.this, R.string.cannot_get_location, Toast.LENGTH_SHORT).show();
-            }
+            getLocation();
         }
     }
 
-    private Location getLocation() {
+    private void getLocation() {
+        Location location = getLastLocation();
+        if (location != null) {
+            writeLocationToPrefs(location, mSharedPreferences);
+        } else {
+            Toast.makeText(MainActivity.this, R.string.cannot_get_location, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private Location getLastLocation() {
         return LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
     }
 
@@ -126,8 +153,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
                 return;
             }
+
+            case REQUEST_CALENDAR:
+                if(grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getCalendarEvents();
+                } else {
+                    // calendar permission denied
+                }
+                return;
         }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 
