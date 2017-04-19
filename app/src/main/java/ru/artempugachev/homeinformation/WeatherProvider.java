@@ -24,7 +24,6 @@ public class WeatherProvider {
     private final String BASE_URL = "https://api.darksky.net/forecast";
     public final static int UPDATE_INTERVAL_MS = 60*1000*15; // 15 min
     // parameters here https://darksky.net/dev/docs/forecast
-    // todo add locale support for lang and units
     private final String LANG_PARAM_KEY = "lang";
     private final String LANG_PARAM_VALUE = "ru";
     private final String UNITS_PARAM_KEY = "units";
