@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private GoogleApiClient mGoogleApiClient;
     private final static int REQUEST_LOCATION = 1;
     private SharedPreferences mSharedPreferences;
+    private Timer mWeatherTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private void runWeatherTask() {
         final Handler handler = new Handler();
-        Timer timer = new Timer();
+        mWeatherTimer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -66,9 +67,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         };
 
-        // todo 1 repeat time constant
-        // todo 2 should i cancel timer?
-        timer.schedule(task, 0, 1000); //it executes this every 1000ms
+        mWeatherTimer.schedule(task, 0, WeatherProvider.UPDATE_INTERVAL_MS);
     }
 
     private void saveLocation() {
@@ -178,6 +177,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onResume() {
         super.onResume();
         checkPlayServices();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mWeatherTimer.cancel();
     }
 
     /**
