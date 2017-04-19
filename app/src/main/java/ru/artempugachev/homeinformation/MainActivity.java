@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        hideStatusBar();
         setUpViews();
 
         mSharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
@@ -178,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onStart() {
         super.onStart();
+        hideStatusBar();
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
