@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private final static int REQUEST_LOCATION = 1;
     private SharedPreferences mSharedPreferences;
     private Timer mWeatherTimer;
+    private TextView mCurWeatherTextView;
+    private ProgressBar mWeatherProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_main);
 
         hideStatusBar();
-        setUpDateView();
+        setUpViews();
 
         mSharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
 
@@ -51,6 +54,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         runWeatherTask();
 
+    }
+
+    private void setUpViews() {
+        mCurWeatherTextView = (TextView) findViewById(R.id.curWeatherTextView);
+        mWeatherProgressBar = (ProgressBar) findViewById(R.id.pb_weather);
+        setUpDateView();
     }
 
     private void runWeatherTask() {
@@ -112,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     // permission was granted. Get location.
                     getLocation();
                 } else {
-                    // todo
                     // location permission denied.
                 }
                 return;
@@ -210,6 +218,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      * Fetch weather from weather provider and update ui
      * */
     private class UpdateWeatherTask extends AsyncTask<Void, Void, Weather> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
         @Override
         protected Weather doInBackground(Void... params) {
             // first we need coordinates
