@@ -24,6 +24,7 @@ public class CalendarModule {
         if (!calendars.isEmpty()) {
             Calendar calendar = calendars.get(0);
 
+            // todo to separate method
             java.util.Calendar begCalendar = java.util.Calendar.getInstance();
             begCalendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
             begCalendar.set(java.util.Calendar.MINUTE, 0);
@@ -36,7 +37,7 @@ public class CalendarModule {
             endCalendar.set(java.util.Calendar.SECOND, 59);
             long end = endCalendar.getTimeInMillis();
 
-
+            // todo заметка для получения событий календаря. gradle, manifest, permissions
             List<Instance> instances = calendarProvider.getInstances(beg, end).getList();
             if (!instances.isEmpty()) {
                 Instance instance = instances.get(0);
