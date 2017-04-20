@@ -75,7 +75,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private void getCalendarEvents() {
         CalendarModule calendarModule = new CalendarModule();
         String events = calendarModule.getEvents(this);
-        mEventsTextView.setText(events);
+        // todo add calendar icon to xml
+        if (!events.isEmpty()) {
+            mEventsTextView.setText(events);
+        } else {
+            mEventsTextView.setText(R.string.no_calendar_events);
+        }
     }
 
     private void setUpViews() {

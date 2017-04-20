@@ -6,4 +6,5 @@
     <string name="pref_lon" translatable="false">pref_lon</string>
     <string name="lat_par" translatable="false">lat_par</string>
     <string name="lon_par" translatable="false">lon_par</string>
+    <string name="no_calendar_events">No calendar events</string>
 </resources>
