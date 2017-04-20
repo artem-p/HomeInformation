@@ -24,21 +24,26 @@ public class CalendarModule {
         CalendarProvider calendarProvider = new CalendarProvider(context);
         List<Calendar> calendars = calendarProvider.getCalendars().getList();
 
+        String events = "";
         if (!calendars.isEmpty()) {
             Calendar calendar = calendars.get(0);
-            List<Instance> instances = getTodayInstances(calendarProvider);
-            String events = "";
-            if (!instances.isEmpty()) {
-                Set<Instance> sortedInstances = getSortedInstances(instances);
-                for (Instance instance : sortedInstances) {
-                    Event event = calendarProvider.getEvent(instance.eventId);
-                    String eventTitle = event.title;
-                    events += eventTitle + "\n";
-                }
-                return events;
+            events = getTodayEvents(calendarProvider, calendar);
+        }
+        return events;
+    }
+
+    private String getTodayEvents(CalendarProvider calendarProvider, Calendar calendar) {
+        List<Instance> instances = getTodayInstances(calendarProvider);
+        String events = "";
+        if (!instances.isEmpty()) {
+            Set<Instance> sortedInstances = getSortedInstances(instances);
+            for (Instance instance : sortedInstances) {
+                Event event = calendarProvider.getEvent(instance.eventId);
+                String eventTitle = event.title;
+                events += eventTitle + "\n";
             }
         }
-        return null;
+        return events;
     }
 
     /**
