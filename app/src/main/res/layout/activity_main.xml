@@ -57,12 +57,24 @@
         android:layout_marginTop="@dimen/margin"
         android:gravity="end"
         />
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/eventsTextView"
+        android:orientation="horizontal"
         android:layout_marginTop="@dimen/margin_big"
-        style="@style/events"
-        />
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/calendar_today"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventsTextView"
+            style="@style/events"
+            android:layout_marginLeft="@dimen/margin"
+            />
+    </LinearLayout>
 </LinearLayout>
