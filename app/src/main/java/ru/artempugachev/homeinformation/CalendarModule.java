@@ -23,22 +23,8 @@ public class CalendarModule {
 
         if (!calendars.isEmpty()) {
             Calendar calendar = calendars.get(0);
-
-            // todo to separate method
-            java.util.Calendar begCalendar = java.util.Calendar.getInstance();
-            begCalendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
-            begCalendar.set(java.util.Calendar.MINUTE, 0);
-            begCalendar.set(java.util.Calendar.SECOND, 0);
-            long beg = begCalendar.getTimeInMillis();
-
-            java.util.Calendar endCalendar = java.util.Calendar.getInstance();
-            endCalendar.set(java.util.Calendar.HOUR_OF_DAY, 23);
-            endCalendar.set(java.util.Calendar.MINUTE, 59);
-            endCalendar.set(java.util.Calendar.SECOND, 59);
-            long end = endCalendar.getTimeInMillis();
-
+            List<Instance> instances = getTodayInstances(calendarProvider);
             // todo заметка для получения событий календаря. gradle, manifest, permissions
-            List<Instance> instances = calendarProvider.getInstances(beg, end).getList();
             if (!instances.isEmpty()) {
                 Instance instance = instances.get(0);
                 Event event = calendarProvider.getEvent(instance.eventId);
@@ -47,5 +33,39 @@ public class CalendarModule {
             }
         }
         return null;
+    }
+
+
+    /**
+     * get beg of today in millis
+     * */
+    private long getBegOfToday() {
+        java.util.Calendar begCalendar = java.util.Calendar.getInstance();
+        begCalendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        begCalendar.set(java.util.Calendar.MINUTE, 0);
+        begCalendar.set(java.util.Calendar.SECOND, 0);
+        return begCalendar.getTimeInMillis();
+    }
+
+
+    /**
+     * get end of today in millis
+     * */
+    private long getEndOfToday() {
+        java.util.Calendar endCalendar = java.util.Calendar.getInstance();
+        endCalendar.set(java.util.Calendar.HOUR_OF_DAY, 23);
+        endCalendar.set(java.util.Calendar.MINUTE, 59);
+        endCalendar.set(java.util.Calendar.SECOND, 59);
+        return endCalendar.getTimeInMillis();
+    }
+
+
+    /**
+     * Get all instances of events for today
+     * */
+    private List<Instance> getTodayInstances(CalendarProvider calendarProvider) {
+        long beg = getBegOfToday();
+        long end = getEndOfToday();
+        return calendarProvider.getInstances(beg, end).getList();
     }
 }
