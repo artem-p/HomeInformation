@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void runCalendarTask() {
+        // todo add asynctask
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
                 != PackageManager.PERMISSION_GRANTED) {
             //  request permissions. Then catch callback
@@ -75,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private void getCalendarEvents() {
         CalendarModule calendarModule = new CalendarModule();
         String events = calendarModule.getEvents(this);
-        // todo add calendar icon to xml
         if (!events.isEmpty()) {
             mEventsTextView.setText(events);
         } else {
