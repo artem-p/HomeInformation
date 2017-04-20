@@ -2,7 +2,10 @@ package ru.artempugachev.homeinformation;
 
 import android.content.Context;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import me.everything.providers.android.calendar.Calendar;
 import me.everything.providers.android.calendar.CalendarProvider;
@@ -24,17 +27,35 @@ public class CalendarModule {
         if (!calendars.isEmpty()) {
             Calendar calendar = calendars.get(0);
             List<Instance> instances = getTodayInstances(calendarProvider);
-            // todo заметка для получения событий календаря. gradle, manifest, permissions
+            String events = "";
             if (!instances.isEmpty()) {
-                Instance instance = instances.get(0);
-                Event event = calendarProvider.getEvent(instance.eventId);
-                String eventTitle = event.title;
-                return eventTitle;
+                Set<Instance> sortedInstances = getSortedInstances(instances);
+                for (Instance instance : sortedInstances) {
+                    Event event = calendarProvider.getEvent(instance.eventId);
+                    String eventTitle = event.title;
+                    events += eventTitle + "\n";
+                }
+                return events;
             }
         }
         return null;
     }
 
+    /**
+     * Sort instances by time begin
+     * */
+    private Set<Instance> getSortedInstances(List<Instance> instances) {
+        Set<Instance> sortedInstances = new TreeSet<Instance>(new Comparator<Instance>() {
+            @Override
+            public int compare(Instance o1, Instance o2) {
+                return o1.begin > o2.begin ? 1 : -1;
+            }
+        });
+
+        sortedInstances.addAll(instances);
+
+        return sortedInstances;
+    }
 
     /**
      * get beg of today in millis
