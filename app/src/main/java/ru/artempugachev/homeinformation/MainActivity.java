@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private TextView mForecastTextView;
     private ProgressBar mWeatherProgressBar;
     private TextView mEventsTextView;
+    private Timer mCalendarTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void updateCalendarEvents() {
-        // todo add asynctask
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
                 != PackageManager.PERMISSION_GRANTED) {
             //  request permissions. Then catch callback
@@ -74,8 +74,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void runCalendarTask() {
-        UpdateCalendarTask updateCalendarTask = new UpdateCalendarTask();
-        updateCalendarTask.execute();
+        final Handler handler = new Handler();
+        mCalendarTimer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        new UpdateCalendarTask().execute();
+                    }
+                });
+            }
+        };
+        mCalendarTimer.schedule(task, 0, CalendarModule.UPDATE_INTERVAL_MS);
     }
 
 

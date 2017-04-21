@@ -17,6 +17,8 @@ import me.everything.providers.android.calendar.Instance;
  */
 
 public class CalendarModule {
+    public static final int UPDATE_INTERVAL_MS = 60 * 1000;
+
     public CalendarModule() {
     }
 
