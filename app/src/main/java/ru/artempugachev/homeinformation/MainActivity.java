@@ -55,10 +55,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
         runWeatherTask();
-        runCalendarTask();
+        updateCalendarEvents();
     }
 
-    private void runCalendarTask() {
+    private void updateCalendarEvents() {
         // todo add asynctask
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -68,20 +68,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     REQUEST_CALENDAR);
         } else {
             // calendar permission granted
-            getCalendarEvents();
+            runCalendarTask();
         }
 
     }
 
-    private void getCalendarEvents() {
-        CalendarModule calendarModule = new CalendarModule();
-        String events = calendarModule.getEvents(this);
-        if (!events.isEmpty()) {
-            mEventsTextView.setText(events);
-        } else {
-            mEventsTextView.setText(R.string.no_calendar_events);
-        }
+    private void runCalendarTask() {
+        UpdateCalendarTask updateCalendarTask = new UpdateCalendarTask();
+        updateCalendarTask.execute();
     }
+
 
     private void setUpViews() {
         mCurWeatherTextView = (TextView) findViewById(R.id.curWeatherTextView);
@@ -162,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             case REQUEST_CALENDAR:
                 if(grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getCalendarEvents();
+                    runCalendarTask();
                 } else {
                     // calendar permission denied
                 }
@@ -253,6 +249,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+
+    /**
+     * Get calendar events and display them
+     * */
+    private class UpdateCalendarTask extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... params) {
+            CalendarModule calendarModule = new CalendarModule();
+            return calendarModule.getEvents(MainActivity.this);
+        }
+
+        @Override
+        protected void onPostExecute(String events) {
+            super.onPostExecute(events);
+            if (!events.isEmpty()) {
+                mEventsTextView.setText(events);
+            } else {
+                mEventsTextView.setText(R.string.no_calendar_events);
+            }
+
+        }
     }
 
     /**
