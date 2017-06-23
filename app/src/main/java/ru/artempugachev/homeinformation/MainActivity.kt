@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LoaderManager.LoaderCallbacks<Cursor> {
     private var mGoogleApiClient: GoogleApiClient? = null
     lateinit var mSharedPreferences: SharedPreferences
-    private var mWeatherTimer: Timer? = null
     private var mCurWeatherTextView: TextView? = null
     private var mForecastTextView: TextView? = null
     private var mWeatherProgressBar: ProgressBar? = null
@@ -58,38 +57,13 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
             buildGoogleApiClient()
         }
 
+        supportLoaderManager.initLoader(WEATHER_LOADER_ID, null, this);
+
         val weatherSyncJobInitializer = WeatherSyncJobInitializer()
         weatherSyncJobInitializer.scheduleWeatherSyncJobService(this)
         startWeatherSyncNow(this)
 
-//        runWeatherTask()
-        //        updateCalendarEvents();
     }
-
-    private fun updateCalendarEvents() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            //  request permissions. Then catch callback
-            ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.READ_CALENDAR),
-                    REQUEST_CALENDAR)
-        } else {
-            // calendar permission granted
-            runCalendarTask()
-        }
-
-    }
-
-    private fun runCalendarTask() {
-        val handler = Handler()
-        mCalendarTimer = Timer()
-        val task = object : TimerTask() {
-            override fun run() {
-                handler.post { UpdateCalendarTask().execute() }
-            }
-        }
-        mCalendarTimer!!.schedule(task, 0, CalendarModule.UPDATE_INTERVAL_MS.toLong())
-    }
-
 
     private fun setUpViews() {
         mCurWeatherTextView = findViewById(R.id.curWeatherTextView) as TextView
@@ -99,17 +73,6 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         setUpDateView()
     }
 
-    private fun runWeatherTask() {
-        val handler = Handler()
-        mWeatherTimer = Timer()
-        val task = object : TimerTask() {
-            override fun run() {
-                handler.post { UpdateWeatherTask().execute() }
-            }
-        }
-
-        mWeatherTimer!!.schedule(task, 0, WeatherProvider.UPDATE_INTERVAL_MS.toLong())
-    }
 
     private fun saveLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -154,15 +117,6 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
                     getLocation()
                 } else {
                     // location permission denied.
-                }
-                return
-            }
-
-            REQUEST_CALENDAR -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    runCalendarTask()
-                } else {
-                    // calendar permission denied
                 }
                 return
             }
@@ -224,11 +178,6 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     override fun onResume() {
         super.onResume()
         checkPlayServices()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mWeatherTimer!!.cancel()
     }
 
     /**
