@@ -6,9 +6,6 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.location.Location
-import android.net.Uri
-import android.os.AsyncTask
-import android.os.Handler
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -31,18 +28,12 @@ import ru.artempugachev.homeinformation.data.WeatherContract
 import ru.artempugachev.homeinformation.data.WeatherSyncJobInitializer
 import ru.artempugachev.homeinformation.data.startWeatherSyncNow
 
-import java.util.Timer
-import java.util.TimerTask
-
 class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LoaderManager.LoaderCallbacks<Cursor> {
-    private var mGoogleApiClient: GoogleApiClient? = null
-    lateinit var mSharedPreferences: SharedPreferences
-    private var mCurWeatherTextView: TextView? = null
-    private var mForecastTextView: TextView? = null
-    private var mWeatherProgressBar: ProgressBar? = null
-    private var mEventsTextView: TextView? = null
-    private var mCalendarTimer: Timer? = null
+    private var googleApiClient: GoogleApiClient? = null
+    lateinit var sharedPreferences: SharedPreferences
+    lateinit var curTempTextView: TextView
+    lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -51,7 +42,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
 
         setUpViews()
 
-        mSharedPreferences = this.getPreferences(Context.MODE_PRIVATE)
+        sharedPreferences = this.getPreferences(Context.MODE_PRIVATE)
 
         if (checkPlayServices()) {
             buildGoogleApiClient()
@@ -66,10 +57,8 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     }
 
     private fun setUpViews() {
-        mCurWeatherTextView = findViewById(R.id.curWeatherTextView) as TextView
-        mForecastTextView = findViewById(R.id.forecastTextView) as TextView
-        mWeatherProgressBar = findViewById(R.id.pb_weather) as ProgressBar
-        mEventsTextView = findViewById(R.id.eventsTextView) as TextView
+        curTempTextView = findViewById(R.id.curTempTextView) as TextView
+        progressBar = findViewById(R.id.pb_weather) as ProgressBar
         setUpDateView()
     }
 
@@ -89,14 +78,14 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     private fun getLocation() {
         val location = lastLocation
         if (location != null) {
-            writeLocationToPrefs(location, mSharedPreferences)
+            writeLocationToPrefs(location, sharedPreferences)
         } else {
             Toast.makeText(this@MainActivity, R.string.cannot_get_location, Toast.LENGTH_SHORT).show()
         }
     }
 
     private val lastLocation: Location?
-        get() = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
+        get() = LocationServices.FusedLocationApi.getLastLocation(googleApiClient)
 
     private fun writeLocationToPrefs(location: Location, preferences: SharedPreferences) {
         val lat = location.latitude
@@ -125,8 +114,8 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
 
 
     private fun buildGoogleApiClient() {
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = GoogleApiClient.Builder(this)
+        if (googleApiClient == null) {
+            googleApiClient = GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
@@ -170,8 +159,8 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     override fun onStart() {
         super.onStart()
         hideStatusBar()
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient!!.connect()
+        if (googleApiClient != null) {
+            googleApiClient!!.connect()
         }
     }
 
@@ -190,7 +179,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     }
 
     override fun onConnectionSuspended(i: Int) {
-        mGoogleApiClient!!.connect()
+        googleApiClient!!.connect()
     }
 
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
@@ -204,7 +193,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
 //    private inner class UpdateWeatherTask : AsyncTask<Void, Void, Weather?>() {
 //        override fun onPreExecute() {
 //            super.onPreExecute()
-//            if (mCurWeatherTextView!!.text == "") {
+//            if (curTempTextView!!.text == "") {
 //                //  Show progress bar when first loading
 //                showProgressBar()
 //            }
@@ -245,9 +234,9 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
 //         * When loading, show progress bar and hide views
 //         */
 //        private fun showProgressBar() {
-//            mCurWeatherTextView!!.visibility = View.INVISIBLE
+//            curTempTextView!!.visibility = View.INVISIBLE
 //            mForecastTextView!!.visibility = View.INVISIBLE
-//            mWeatherProgressBar!!.visibility = View.VISIBLE
+//            progressBar!!.visibility = View.VISIBLE
 //        }
 //
 //
@@ -255,9 +244,9 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
 //         * After loading, hide progress bar and show views
 //         */
 //        private fun showWeatherViews() {
-//            mCurWeatherTextView!!.visibility = View.VISIBLE
+//            curTempTextView!!.visibility = View.VISIBLE
 //            mForecastTextView!!.visibility = View.VISIBLE
-//            mWeatherProgressBar!!.visibility = View.INVISIBLE
+//            progressBar!!.visibility = View.INVISIBLE
 //        }
 //
 //        /**
