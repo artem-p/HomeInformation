@@ -21,6 +21,8 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.GooglePlayServicesUtil
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
+import ru.artempugachev.homeinformation.data.WeatherSyncJobInitializer
+import ru.artempugachev.homeinformation.data.startWeatherSyncNow
 
 import java.util.Timer
 import java.util.TimerTask
@@ -48,7 +50,11 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
             buildGoogleApiClient()
         }
 
-        runWeatherTask()
+        val weatherSyncJobInitializer = WeatherSyncJobInitializer()
+        weatherSyncJobInitializer.scheduleWeatherSyncJobService(this)
+        startWeatherSyncNow(this)
+
+//        runWeatherTask()
         //        updateCalendarEvents();
     }
 

@@ -3,7 +3,7 @@ package ru.artempugachev.homeinformation.data
 import android.net.Uri
 import android.provider.BaseColumns
 
-val AUTHORITY = "ru.artempugachev.myweather"
+val AUTHORITY = "ru.artempugachev.homeinformation"
 val BASE_CONTENT_URI = Uri.parse("content://${AUTHORITY}")
 val PATH_WEATHER = "weather"
 val WEATHER_URI = BASE_CONTENT_URI.buildUpon()

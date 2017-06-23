@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-val DATABASE_NAME = "myweather.db"
+val DATABASE_NAME = "homeinformation.db"
 val DATABASE_VERSION = 1
 val SQL_CREATE_WEATHER_TABLE = """CREATE TABLE ${WeatherContract.WeatherEntry.TABLE_NAME}
                (${WeatherContract.WeatherEntry._ID} INTEGER PRIMARY KEY AUTOINCREMENT,

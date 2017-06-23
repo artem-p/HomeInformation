@@ -22,6 +22,21 @@
             </intent-filter>
         </activity>
 
+        <provider
+            android:authorities="ru.artempugachev.homeinformation"
+            android:name="ru.artempugachev.homeinformation.data.WeatherContentProvider"
+            android:exported="false">
+        </provider>
+
+        <service android:name=".data.WeatherSyncService"
+            android:exported="false"/>
+
+        <service android:name=".data.WeatherSyncJobService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
