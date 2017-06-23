@@ -20,7 +20,7 @@
 
     <style name="curTemp">
         <item name="android:textColor">@color/colorWhite</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display4</item>
     </style>
 
     <style name="forecast">

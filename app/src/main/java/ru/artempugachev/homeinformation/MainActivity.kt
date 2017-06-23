@@ -286,7 +286,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         if (cursor != null && cursor.moveToFirst()) {
             val curTemp = cursor.getDouble(cursor.getColumnIndex(
                     WeatherContract.WeatherEntry.COLUMN_MIN_TEMPERATURE))
-            curTempTextView.text = curTemp.toString()
+            curTempTextView.text = getString(R.string.format_temp, curTemp)
         }
     }
 
