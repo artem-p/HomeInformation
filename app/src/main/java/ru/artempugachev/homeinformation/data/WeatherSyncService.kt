@@ -27,6 +27,8 @@ class WeatherSyncService : IntentService("WeatherSyncService") {
 @Synchronized
 fun syncWeather(context: Context) {
     val darkSkyProvider = DarkSkyProvider(BuildConfig.DARK_SKY_API_KEY)
+
+    // todo fetch for real coordinates
     val weatherData = darkSkyProvider.fetchWeatherData(Coordinate("59.93", "30.29"))
 
     if (!weatherData.isEmpty()) {
