@@ -44,12 +44,15 @@ class DataProvider(val context: Context) {
     /**
      * Write array of weatherArray data to db
      * */
-    fun writeWeather(weatherList: List<Weather>) {
+    fun writeWeather(weatherList: List<Weather>): Int {
+        var rowsInserted = 0
         if (weatherList.isNotEmpty()) {
             val weatherCv = weatherList.map{weather -> weather.toContentValues() }
             val weatherCvArray = weatherCv.toTypedArray()
-            val rowsInserted = context.contentResolver.bulkInsert(WEATHER_URI, weatherCvArray)
+            rowsInserted = context.contentResolver.bulkInsert(WEATHER_URI, weatherCvArray)
         }
+
+        return rowsInserted
     }
 
     /**

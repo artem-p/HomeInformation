@@ -34,7 +34,7 @@ fun syncWeather(context: Context) {
     if (!weatherData.isEmpty()) {
         val dataProvider = DataProvider(context)
         dataProvider.deleteData()
-        dataProvider.writeWeather(weatherData)
+        val rowsInserted = dataProvider.writeWeather(weatherData)
     }
 }
 

@@ -273,9 +273,8 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     override fun onCreateLoader(loaderId: Int, args: Bundle?): Loader<Cursor> {
         when (loaderId) {
             WEATHER_LOADER_ID -> {
-                val sortOrder = "${WeatherContract.WeatherEntry.COLUMN_TIMESTAMP} DESC"
-
-                return CursorLoader(this, WEATHER_URI, null, null, null, sortOrder)
+//                val sortOrder = "${WeatherContract.WeatherEntry.COLUMN_TIMESTAMP}"
+                return CursorLoader(this, WEATHER_URI, null, null, null, null)
             }
             else -> {
                 throw RuntimeException("Loader not implemented: " + loaderId)
@@ -284,8 +283,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>?, cursor: Cursor?) {
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
+        if (cursor != null && cursor.moveToFirst()) {
             val curTemp = cursor.getDouble(cursor.getColumnIndex(
                     WeatherContract.WeatherEntry.COLUMN_MIN_TEMPERATURE))
             curTempTextView.text = curTemp.toString()
