@@ -4,12 +4,17 @@ import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.location.Location
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Handler
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.LoaderManager
+import android.support.v4.content.CursorLoader
+import android.support.v4.content.Loader
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextClock
@@ -21,13 +26,16 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.GooglePlayServicesUtil
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
+import ru.artempugachev.homeinformation.data.WEATHER_URI
+import ru.artempugachev.homeinformation.data.WeatherContract
 import ru.artempugachev.homeinformation.data.WeatherSyncJobInitializer
 import ru.artempugachev.homeinformation.data.startWeatherSyncNow
 
 import java.util.Timer
 import java.util.TimerTask
 
-class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, LoaderManager.LoaderCallbacks<Cursor> {
     private var mGoogleApiClient: GoogleApiClient? = null
     lateinit var mSharedPreferences: SharedPreferences
     private var mWeatherTimer: Timer? = null
@@ -341,8 +349,34 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         }
     }
 
-    companion object {
 
+    /**
+     * Loader methods. We load data from database with cursor loader
+     * It monitors URI and load new data when new data puts in database
+     * */
+    override fun onCreateLoader(loaderId: Int, args: Bundle?): Loader<Cursor> {
+        when (loaderId) {
+            WEATHER_LOADER_ID -> {
+                val sortOrder = "${WeatherContract.WeatherEntry.COLUMN_TIMESTAMP} ASC"
+
+                return CursorLoader(this, WEATHER_URI, null, null, null, sortOrder)
+            }
+            else -> {
+                throw RuntimeException("Loader not implemented: " + loaderId)
+            }
+        }
+    }
+
+    override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
+
+    }
+
+    override fun onLoaderReset(loader: Loader<Cursor>?) {
+
+    }
+
+    companion object {
+        private val WEATHER_LOADER_ID = 42
         private val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
         private val REQUEST_CALENDAR = 300
         private val REQUEST_LOCATION = 100
