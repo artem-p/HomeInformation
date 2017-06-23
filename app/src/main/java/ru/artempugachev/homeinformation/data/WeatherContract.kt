@@ -17,8 +17,8 @@ class WeatherContract private constructor(){
             val _ID: String = "_id"   // it is in BaseColumns though, but I don't know how to
                                             // access it from this kotlin class
             val COLUMN_TIMESTAMP = "timestamp"
-            val COLUMN_MAX_TEMPERATURE = "feels_like_temperature"
-            val COLUMN_MIN_TEMPERATURE = "temperature"
+            val COLUMN_MAX_TEMPERATURE = "max_temperature"
+            val COLUMN_MIN_TEMPERATURE = "min_temperature"
             val COLUMN_HUMIDITY = "humidity"
             val COLUMN_PRESSURE = "pressure"
             val COLUMN_WEATHER_ICON = "weather_icon"

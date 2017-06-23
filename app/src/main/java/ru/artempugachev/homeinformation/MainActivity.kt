@@ -199,104 +199,82 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
 
 
     /**
-     * Get calendar events and display them
-     */
-    private inner class UpdateCalendarTask : AsyncTask<Void, Void, String>() {
-
-        override fun doInBackground(vararg params: Void): String {
-            val calendarModule = CalendarModule()
-            return calendarModule.getEvents(this@MainActivity)
-        }
-
-        override fun onPostExecute(events: String) {
-            super.onPostExecute(events)
-            if (!events.isEmpty()) {
-                mEventsTextView!!.text = events
-            } else {
-                mEventsTextView!!.setText(R.string.no_calendar_events)
-            }
-
-        }
-    }
-
-    /**
-
      * Fetch weather from weather provider and update ui
      */
-    private inner class UpdateWeatherTask : AsyncTask<Void, Void, Weather?>() {
-        override fun onPreExecute() {
-            super.onPreExecute()
-            if (mCurWeatherTextView!!.text == "") {
-                //  Show progress bar when first loading
-                showProgressBar()
-            }
-        }
-
-        override fun doInBackground(vararg params: Void): Weather? {
-            // first we need coordinates
-            val preferences = getPreferences(Context.MODE_PRIVATE)
-            val coord = getCoordsFromPrefs(preferences)
-            var weather: Weather? = null
-            if (coord != null) {
-                try {
-                    val provider = WeatherProvider(BuildConfig.DARK_SKY_API_KEY)
-                    weather = provider.fetchCurrent(coord)
-                    return weather
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-
-            }
-            return weather
-        }
-
-        override fun onPostExecute(weather: Weather?) {
-            super.onPostExecute(weather)
-            showWeatherViews()
-
-            if (weather != null) {
-                val curWeatherTextView = findViewById(R.id.curWeatherTextView) as TextView
-                curWeatherTextView.text = weather.toCurrent()
-
-                val forecastTextView = findViewById(R.id.forecastTextView) as TextView
-                forecastTextView.text = weather.toForecastSummary()
-            }
-        }
-
-        /**
-         * When loading, show progress bar and hide views
-         */
-        private fun showProgressBar() {
-            mCurWeatherTextView!!.visibility = View.INVISIBLE
-            mForecastTextView!!.visibility = View.INVISIBLE
-            mWeatherProgressBar!!.visibility = View.VISIBLE
-        }
-
-
-        /**
-         * After loading, hide progress bar and show views
-         */
-        private fun showWeatherViews() {
-            mCurWeatherTextView!!.visibility = View.VISIBLE
-            mForecastTextView!!.visibility = View.VISIBLE
-            mWeatherProgressBar!!.visibility = View.INVISIBLE
-        }
-
-        /**
-         * Read coordinates from preferences
-         */
-        private fun getCoordsFromPrefs(preferences: SharedPreferences): Coordinate? {
-            val lat = preferences.getString(getString(R.string.pref_lat), "")
-            val lon = preferences.getString(getString(R.string.pref_lon), "")
-
-            if (lat == "" || lon == "") {
-                return null
-            } else {
-
-                return Coordinate(lat, lon)
-            }
-        }
-    }
+//    private inner class UpdateWeatherTask : AsyncTask<Void, Void, Weather?>() {
+//        override fun onPreExecute() {
+//            super.onPreExecute()
+//            if (mCurWeatherTextView!!.text == "") {
+//                //  Show progress bar when first loading
+//                showProgressBar()
+//            }
+//        }
+//
+//        override fun doInBackground(vararg params: Void): Weather? {
+//            // first we need coordinates
+//            val preferences = getPreferences(Context.MODE_PRIVATE)
+//            val coord = getCoordsFromPrefs(preferences)
+//            var weather: Weather? = null
+//            if (coord != null) {
+//                try {
+//                    val provider = WeatherProvider(BuildConfig.DARK_SKY_API_KEY)
+//                    weather = provider.fetchCurrent(coord)
+//                    return weather
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//
+//            }
+//            return weather
+//        }
+//
+//        override fun onPostExecute(weather: Weather?) {
+//            super.onPostExecute(weather)
+//            showWeatherViews()
+//
+//            if (weather != null) {
+//                val curWeatherTextView = findViewById(R.id.curWeatherTextView) as TextView
+//                curWeatherTextView.text = weather.toCurrent()
+//
+//                val forecastTextView = findViewById(R.id.forecastTextView) as TextView
+//                forecastTextView.text = weather.toForecastSummary()
+//            }
+//        }
+//
+//        /**
+//         * When loading, show progress bar and hide views
+//         */
+//        private fun showProgressBar() {
+//            mCurWeatherTextView!!.visibility = View.INVISIBLE
+//            mForecastTextView!!.visibility = View.INVISIBLE
+//            mWeatherProgressBar!!.visibility = View.VISIBLE
+//        }
+//
+//
+//        /**
+//         * After loading, hide progress bar and show views
+//         */
+//        private fun showWeatherViews() {
+//            mCurWeatherTextView!!.visibility = View.VISIBLE
+//            mForecastTextView!!.visibility = View.VISIBLE
+//            mWeatherProgressBar!!.visibility = View.INVISIBLE
+//        }
+//
+//        /**
+//         * Read coordinates from preferences
+//         */
+//        private fun getCoordsFromPrefs(preferences: SharedPreferences): Coordinate? {
+//            val lat = preferences.getString(getString(R.string.pref_lat), "")
+//            val lon = preferences.getString(getString(R.string.pref_lon), "")
+//
+//            if (lat == "" || lon == "") {
+//                return null
+//            } else {
+//
+//                return Coordinate(lat, lon)
+//            }
+//        }
+//    }
 
 
     /**
