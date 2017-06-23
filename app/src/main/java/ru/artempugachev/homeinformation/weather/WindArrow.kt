@@ -1,4 +1,4 @@
-package ru.artempugachev.myweather.weather
+package ru.artempugachev.homeinformation.weather
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -6,8 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ImageView
-import ru.artempugachev.myweather.R
-import ru.artempugachev.myweather.weather.Wind
+import ru.artempugachev.homeinformation.R
 
 /**
  * Component for wind arrow

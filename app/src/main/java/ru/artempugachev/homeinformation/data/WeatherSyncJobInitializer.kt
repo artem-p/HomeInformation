@@ -1,8 +1,7 @@
-package ru.artempugachev.myweather.data
+package ru.artempugachev.homeinformation.data
 
 import android.content.Context
 import com.firebase.jobdispatcher.*
-import java.util.concurrent.TimeUnit
 
 /**
  * Initialize weather sync job service

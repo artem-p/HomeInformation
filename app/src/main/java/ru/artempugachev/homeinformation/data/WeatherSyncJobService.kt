@@ -1,9 +1,7 @@
-package ru.artempugachev.myweather.data
+package ru.artempugachev.homeinformation.data
 
-import android.content.Context
 import android.os.AsyncTask
 import com.firebase.jobdispatcher.*
-import java.util.concurrent.TimeUnit
 
 
 /**

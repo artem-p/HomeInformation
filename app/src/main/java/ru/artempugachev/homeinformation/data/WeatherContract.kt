@@ -1,4 +1,4 @@
-package ru.artempugachev.myweather.data
+package ru.artempugachev.homeinformation.data
 
 import android.net.Uri
 import android.provider.BaseColumns

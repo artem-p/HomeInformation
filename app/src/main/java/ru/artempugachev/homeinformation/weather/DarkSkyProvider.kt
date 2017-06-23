@@ -1,4 +1,4 @@
-package ru.artempugachev.myweather.weather
+package ru.artempugachev.homeinformation.weather
 
 import android.net.Uri
 import org.json.JSONException

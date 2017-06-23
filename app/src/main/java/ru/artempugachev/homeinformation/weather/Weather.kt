@@ -1,8 +1,8 @@
-package ru.artempugachev.myweather.weather
+package ru.artempugachev.homeinformation.weather
 
 import android.content.ContentValues
-import ru.artempugachev.myweather.R
-import ru.artempugachev.myweather.data.WeatherContract
+import ru.artempugachev.homeinformation.R
+import ru.artempugachev.homeinformation.data.WeatherContract
 
 /**
  * Representation of weather
@@ -15,7 +15,7 @@ class Weather(val timestamp: Int, val minTemp: Double, val maxTemp: Double, val 
      */
     fun toWeatherData(): WeatherData {
         // todo stub
-        return WeatherData(timestamp, minTemp, maxTemp, R.drawable.cloudy, description, wind)
+        return WeatherData(timestamp, minTemp, maxTemp, R.drawable.cloud, description, wind)
     }
 
     /**

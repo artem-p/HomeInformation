@@ -1,6 +1,6 @@
-package ru.artempugachev.myweather.weather
+package ru.artempugachev.homeinformation.weather
 
-import ru.artempugachev.myweather.R
+import ru.artempugachev.homeinformation.R
 
 class Wind(val speed: Double, val direction: Int) {
     /**

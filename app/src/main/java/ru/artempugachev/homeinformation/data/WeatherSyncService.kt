@@ -1,11 +1,11 @@
-package ru.artempugachev.myweather.data
+package ru.artempugachev.homeinformation.data
 
 import android.app.IntentService
 import android.content.Context
 import android.content.Intent
-import ru.artempugachev.myweather.BuildConfig
-import ru.artempugachev.myweather.weather.Coordinate
-import ru.artempugachev.myweather.weather.DarkSkyProvider
+import ru.artempugachev.homeinformation.BuildConfig
+import ru.artempugachev.homeinformation.weather.Coordinate
+import ru.artempugachev.homeinformation.weather.DarkSkyProvider
 
 /**
  * Service for weather sync

@@ -1,4 +1,4 @@
-package ru.artempugachev.myweather.data
+package ru.artempugachev.homeinformation.data
 
 import android.content.ContentProvider
 import android.content.ContentValues
