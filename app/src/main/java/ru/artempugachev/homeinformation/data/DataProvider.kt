@@ -16,7 +16,7 @@ class DataProvider(val context: Context) {
      * */
     fun getCurrentData(): WeatherData? {
 
-        val cursor: Cursor = context.contentResolver.query(WEATHER_URI,
+        val cursor: Cursor = context.contentResolver.query(WeatherContract.WEATHER_URI,
                 null, null, null, null)
 
         val weatherData: WeatherData?
@@ -49,7 +49,7 @@ class DataProvider(val context: Context) {
         if (weatherList.isNotEmpty()) {
             val weatherCv = weatherList.map{weather -> weather.toContentValues() }
             val weatherCvArray = weatherCv.toTypedArray()
-            rowsInserted = context.contentResolver.bulkInsert(WEATHER_URI, weatherCvArray)
+            rowsInserted = context.contentResolver.bulkInsert(WeatherContract.WEATHER_URI, weatherCvArray)
         }
 
         return rowsInserted
@@ -59,6 +59,6 @@ class DataProvider(val context: Context) {
      * Delete all the data
      * */
     fun deleteData() {
-        context.contentResolver.delete(WEATHER_URI, null, null)
+        context.contentResolver.delete(WeatherContract.WEATHER_URI, null, null)
     }
 }

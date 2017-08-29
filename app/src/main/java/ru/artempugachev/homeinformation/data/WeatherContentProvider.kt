@@ -16,9 +16,9 @@ class WeatherContentProvider : ContentProvider() {
 
     private fun buildUriMatcher(): UriMatcher {
         val matcher = UriMatcher(UriMatcher.NO_MATCH)
-        val authority = AUTHORITY
-        matcher.addURI(authority, PATH_WEATHER, CODE_WEATHER)
-        matcher.addURI(authority, "${PATH_WEATHER}/#", CODE_WEATHER_WITH_DATE)
+        val authority = WeatherContract.AUTHORITY
+        matcher.addURI(authority, WeatherContract.PATH_WEATHER, CODE_WEATHER)
+        matcher.addURI(authority, "${WeatherContract.PATH_WEATHER}/#", CODE_WEATHER_WITH_DATE)
         return matcher
     }
 
