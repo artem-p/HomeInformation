@@ -9,7 +9,7 @@ public final class WeatherDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "homeinformation.db";
     private static final int DATABASE_VERSION = 1;
     private static final String SQL_CREATE_WEATHER_TABLE = "CREATE TABLE " +
-            WeatherContract.WeatherEntry.TABLE_NAME + ", (" +
+            WeatherContract.WeatherEntry.TABLE_NAME + " (" +
             WeatherContract.WeatherEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             WeatherContract.WeatherEntry.COLUMN_TIMESTAMP + " INTEGER NOT NULL, " +
             WeatherContract.WeatherEntry.COLUMN_MIN_TEMPERATURE + " REAL NOT NULL, " +
