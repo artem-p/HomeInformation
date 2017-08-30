@@ -1,25 +1,28 @@
-package ru.artempugachev.homeinformation.data
+package ru.artempugachev.homeinformation.data;
 
-import android.content.ContentProvider
-import android.content.ContentValues
-import android.content.UriMatcher
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
-import android.net.Uri
+import android.content.ContentProvider;
+import android.content.ContentValues;
+import android.content.UriMatcher;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-val CODE_WEATHER = 100
-val CODE_WEATHER_WITH_DATE = 101
 
-class WeatherContentProvider : ContentProvider() {
-    lateinit var dbHelper: WeatherDbHelper
-    val uriMatcher = buildUriMatcher()
+public class WeatherContentProvider extends ContentProvider {
+    public static final int  CODE_WEATHER = 100;
+    public static final int  CODE_WEATHER_WITH_DATE = 101;
 
-    private fun buildUriMatcher(): UriMatcher {
-        val matcher = UriMatcher(UriMatcher.NO_MATCH)
-        val authority = WeatherContract.AUTHORITY
-        matcher.addURI(authority, WeatherContract.PATH_WEATHER, CODE_WEATHER)
-        matcher.addURI(authority, "${WeatherContract.PATH_WEATHER}/#", CODE_WEATHER_WITH_DATE)
-        return matcher
+    private WeatherDbHelper dbHelper;
+    private UriMatcher uriMatcher = buildUriMatcher();
+
+    private UriMatcher buildUriMatcher() {
+        UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
+        String authority = WeatherContract.AUTHORITY;
+        matcher.addURI(authority, WeatherContract.PATH_WEATHER, CODE_WEATHER);
+        matcher.addURI(authority, WeatherContract.PATH_WEATHER + "/#", CODE_WEATHER_WITH_DATE);
+        return matcher;
     }
 
     override fun onCreate(): Boolean {
@@ -142,7 +145,40 @@ class WeatherContentProvider : ContentProvider() {
 /**
  * Some data for test purposes
  * */
-fun getTestWeatherContentValues(): Array<ContentValues> {
+fun getTestWeatherContentValues()
+
+    @Override
+    public boolean onCreate() {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String getType(@NonNull Uri uri) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+        return null;
+    }
+
+    @Override
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        return 0;
+    }
+
+    @Override
+    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
+        return 0;
+    }: Array<ContentValues> {
     val cv1: ContentValues = ContentValues()
     cv1.put(WeatherContract.WeatherEntry._ID, 1)
     cv1.put(WeatherContract.WeatherEntry.COLUMN_TIMESTAMP, 1496528520)
