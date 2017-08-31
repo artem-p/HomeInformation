@@ -11,8 +11,8 @@ import android.support.annotation.Nullable;
 
 
 public class WeatherContentProvider extends ContentProvider {
-    public static final int  CODE_WEATHER = 100;
-    public static final int  CODE_WEATHER_WITH_DATE = 101;
+    public static final int CODE_WEATHER = 100;
+    public static final int CODE_WEATHER_WITH_DATE = 101;
 
     private WeatherDbHelper dbHelper;
     private UriMatcher uriMatcher = buildUriMatcher();
