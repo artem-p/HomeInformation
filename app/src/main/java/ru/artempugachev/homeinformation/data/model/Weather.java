@@ -1,12 +1,14 @@
-package ru.artempugachev.homeinformation.weather;
+package ru.artempugachev.homeinformation.data.model;
 
 import android.content.ContentValues;
 import ru.artempugachev.homeinformation.R;
 import ru.artempugachev.homeinformation.data.WeatherContract;
+import ru.artempugachev.homeinformation.weather.Wind;
 
 /**
  * Representation of weather
  * */
+
 public class Weather {
     private int timestamp;
     private double minTemp;

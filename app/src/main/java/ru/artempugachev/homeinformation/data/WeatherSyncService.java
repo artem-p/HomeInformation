@@ -12,7 +12,7 @@ import java.io.IOException;
 import kotlin.jvm.Synchronized;
 import ru.artempugachev.homeinformation.BuildConfig;
 import ru.artempugachev.homeinformation.weather.Coordinate;
-import ru.artempugachev.homeinformation.weather.Weather;
+import ru.artempugachev.homeinformation.data.model.Weather;
 import ru.artempugachev.homeinformation.weather.WeatherData;
 
 /**

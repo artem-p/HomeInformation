@@ -2,7 +2,7 @@ package ru.artempugachev.homeinformation.data
 
 import android.content.Context
 import android.database.Cursor
-import ru.artempugachev.homeinformation.weather.Weather
+import ru.artempugachev.homeinformation.data.model.Weather
 import ru.artempugachev.homeinformation.weather.WeatherData
 import ru.artempugachev.homeinformation.weather.Wind
 
