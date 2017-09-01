@@ -9,11 +9,9 @@ import org.json.JSONException;
 
 import java.io.IOException;
 
-import kotlin.jvm.Synchronized;
 import ru.artempugachev.homeinformation.BuildConfig;
 import ru.artempugachev.homeinformation.weather.Coordinate;
 import ru.artempugachev.homeinformation.data.model.Weather;
-import ru.artempugachev.homeinformation.weather.WeatherData;
 
 /**
  * Service for weather sync
@@ -21,7 +19,7 @@ import ru.artempugachev.homeinformation.weather.WeatherData;
  * Get weather from weather provider and put in to database via content provider
  */
 
-class WeatherSyncService extends IntentService {
+public class WeatherSyncService extends IntentService {
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *
@@ -44,7 +42,7 @@ class WeatherSyncService extends IntentService {
         syncWeather(WeatherSyncService.this);
     }
 
-    @Synchronized
+    synchronized
     private static void syncWeather(Context context) {
         DarkSkyProvider darkSkyProvider = new DarkSkyProvider(BuildConfig.DARK_SKY_API_KEY);
 
@@ -69,8 +67,8 @@ class WeatherSyncService extends IntentService {
 
 
 
-fun startWeatherSyncNow(context: Context) {
-    val syncIntent = Intent(context, WeatherSyncService::class.java)
-    context.startService(syncIntent)
-}
+    fun startWeatherSyncNow(context: Context) {
+        val syncIntent = Intent(context, WeatherSyncService::class.java)
+        context.startService(syncIntent)
+    }
 
