@@ -11,6 +11,14 @@ public class Wind {
         this.direction = direction;
     }
 
+    public double getSpeed() {
+        return speed;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
     /**
      * Get wind arrow by wind direction
      * 338 <= "N" <= 23
