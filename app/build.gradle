@@ -39,4 +39,9 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.7.0'
     compile 'me.everything:providers-android:1.0.1'
     compile 'com.firebase:firebase-jobdispatcher:0.6.0'
+
+    // retrofit, gson
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
 }
