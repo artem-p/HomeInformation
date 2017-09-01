@@ -1,64 +1,75 @@
-package ru.artempugachev.homeinformation.data
+package ru.artempugachev.homeinformation.data;
 
-import android.content.Context
-import android.database.Cursor
-import ru.artempugachev.homeinformation.data.model.Weather
-import ru.artempugachev.homeinformation.weather.WeatherData
-import ru.artempugachev.homeinformation.weather.Wind
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ru.artempugachev.homeinformation.data.model.Weather;
+import ru.artempugachev.homeinformation.weather.Wind;
 
 /**
  * Wrapper on WeatherProvider with helper methods
  */
 
-class DataProvider(val context: Context) {
+public class DataProvider {
+    private Context context;
+
+    public DataProvider(Context context) {
+        this.context = context;
+    }
+
     /**
-     * Query data with provider and prepare WeatherData data class
+     * Query data with provider
      * */
-    fun getCurrentData(): WeatherData? {
+    public Weather getCurrentData() {
 
-        val cursor: Cursor = context.contentResolver.query(WeatherContract.WEATHER_URI,
-                null, null, null, null)
+        Cursor cursor = context.getContentResolver().query(WeatherContract.WEATHER_URI,
+                null, null, null, null);
 
-        val weatherData: WeatherData?
+        Weather weather = null;
 
-        weatherData = if (cursor.moveToFirst()) {
-            val timestamp = cursor.getInt(cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_TIMESTAMP))
-            val minTemp = cursor.getDouble(cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_MIN_TEMPERATURE))
-            val maxTemp = cursor.getDouble(cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_MAX_TEMPERATURE))
-            val weatherIcon = cursor.getString(cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_WEATHER_ICON))
-            val weatherDescription = cursor.getString(cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_WEATHER_DESCRIPTION))
-            val windSpeed = cursor.getDouble(cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_WIND_SPEED))
-            val windDir = cursor.getInt(cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_WIND_DIRECTION))
+        if (cursor.moveToFirst()) {
+            int timestamp = cursor.getInt(cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_TIMESTAMP));
+            double temperature = cursor.getDouble(cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_TEMPERATURE));
+            String weatherIcon = cursor.getString(cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_WEATHER_ICON));
+            String weatherDescription = cursor.getString(cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_WEATHER_DESCRIPTION));
+            double windSpeed = cursor.getDouble(cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_WIND_SPEED));
+            double windDir = cursor.getInt(cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_WIND_DIRECTION));
 
-            val weather: Weather = Weather(timestamp, minTemp, maxTemp, weatherIcon, weatherDescription, Wind(windSpeed, windDir))
-            weather.toWeatherData()
-        } else {
-            null
+            weather = new Weather(timestamp, temperature, weatherIcon, weatherDescription, windSpeed, windDir);
         }
 
-        cursor.close()
+        cursor.close();
 
-        return weatherData
+        return weather;
     }
 
     /**
      * Write array of weatherArray data to db
      * */
-    fun writeWeather(weatherList: List<Weather>): Int {
-        var rowsInserted = 0
-        if (weatherList.isNotEmpty()) {
-            val weatherCv = weatherList.map{weather -> weather.toContentValues() }
-            val weatherCvArray = weatherCv.toTypedArray()
-            rowsInserted = context.contentResolver.bulkInsert(WeatherContract.WEATHER_URI, weatherCvArray)
+    public int writeWeather(List<Weather> weatherList) {
+        int rowsInserted = 0;
+        if (!weatherList.isEmpty()) {
+            ContentValues[] weatherCv = new ContentValues[weatherList.size()];
+
+            for (int weatherCount = 0; weatherCount < weatherList.size(); weatherCount++) {
+                weatherCv[weatherCount] = weatherList.get(weatherCount).toContentValues();
+
+            }
+
+            rowsInserted = context.getContentResolver().bulkInsert(WeatherContract.WEATHER_URI, weatherCv);
         }
 
-        return rowsInserted
+        return rowsInserted;
     }
 
     /**
      * Delete all the data
      * */
-    fun deleteData() {
-        context.contentResolver.delete(WeatherContract.WEATHER_URI, null, null)
+    public void deleteData() {
+        context.getContentResolver().delete(WeatherContract.WEATHER_URI, null, null);
     }
 }

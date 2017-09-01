@@ -35,25 +35,20 @@ public class Weather {
         this.windDir = windDir;
     }
 
-//    /**
-//     * Transform to content values for db writing
-//     * */
-//    public ContentValues toContentValues() {
-//        ContentValues cv = new ContentValues();
-//        cv.put(WeatherContract.WeatherEntry.COLUMN_TIMESTAMP, timestamp);
-//        cv.put(WeatherContract.WeatherEntry.COLUMN_MIN_TEMPERATURE, minTemp);
-//        cv.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_ICON, icon);
-//        cv.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_DESCRIPTION, description);
-//        cv.put(WeatherContract.WeatherEntry.COLUMN_WIND_DIRECTION, wind.getDirection());
-//        cv.put(WeatherContract.WeatherEntry.COLUMN_WIND_SPEED, wind.getSpeed());
-//        cv.put(WeatherContract.WeatherEntry.COLUMN_MAX_TEMPERATURE, maxTemp);
-//
-//        // todo not implemented vals yet
-//        cv.put(WeatherContract.WeatherEntry.COLUMN_HUMIDITY, 0);
-//        cv.put(WeatherContract.WeatherEntry.COLUMN_PRESSURE, 0);
-//
-//        return cv;
-//    }
+    /**
+     * Transform to content values for db writing
+     * */
+    public ContentValues toContentValues() {
+        ContentValues cv = new ContentValues();
+        cv.put(WeatherContract.WeatherEntry.COLUMN_TIMESTAMP, timestamp);
+        cv.put(WeatherContract.WeatherEntry.COLUMN_TEMPERATURE, temperature);
+        cv.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_ICON, icon);
+        cv.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_DESCRIPTION, description);
+        cv.put(WeatherContract.WeatherEntry.COLUMN_WIND_DIRECTION, windDir);
+        cv.put(WeatherContract.WeatherEntry.COLUMN_WIND_SPEED, windSpeed);
+
+        return cv;
+    }
 }
 
 
