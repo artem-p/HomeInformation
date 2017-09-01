@@ -19,10 +19,7 @@ public final class WeatherContract {
     public static class WeatherEntry implements BaseColumns {
         public static final String TABLE_NAME = "weather";
         public static final String COLUMN_TIMESTAMP = "timestamp";
-        public static final String COLUMN_MAX_TEMPERATURE = "max_temperature";
-        public static final String COLUMN_MIN_TEMPERATURE = "min_temperature";
-        public static final String COLUMN_HUMIDITY = "humidity";
-        public static final String COLUMN_PRESSURE = "pressure";
+        public static final String COLUMN_TEMPERATURE = "temperature";
         public static final String COLUMN_WEATHER_ICON = "weather_icon";
         public static final String COLUMN_WEATHER_DESCRIPTION = "description";
         public static final String COLUMN_WIND_DIRECTION = "wind_direction";

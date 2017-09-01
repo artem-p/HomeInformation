@@ -47,10 +47,10 @@ public class WeatherContentProvider extends ContentProvider {
             }
 
             case CODE_WEATHER_WITH_DATE: {
-                String date = uri.getPathSegments().get(1);
-                if (date != null) {
+                String time = uri.getPathSegments().get(1);
+                if (time != null) {
                     String where = WeatherContract.WeatherEntry.COLUMN_TIMESTAMP + "=?";
-                    String[] whereArgs  = new String[]{date};
+                    String[] whereArgs  = new String[]{time};
                     cursor = db.query(WeatherContract.WeatherEntry.TABLE_NAME,
                             projection, where, whereArgs, null, null, sortOrder);
                 } else {
@@ -160,10 +160,7 @@ public class WeatherContentProvider extends ContentProvider {
         ContentValues cv1 = new ContentValues();
         cv1.put(WeatherContract.WeatherEntry._ID, 1);
         cv1.put(WeatherContract.WeatherEntry.COLUMN_TIMESTAMP, 1496528520);
-        cv1.put(WeatherContract.WeatherEntry.COLUMN_MIN_TEMPERATURE, 11.3);
-        cv1.put(WeatherContract.WeatherEntry.COLUMN_MAX_TEMPERATURE, 11.3);
-        cv1.put(WeatherContract.WeatherEntry.COLUMN_HUMIDITY, 75);
-        cv1.put(WeatherContract.WeatherEntry.COLUMN_PRESSURE, 1015.5);
+        cv1.put(WeatherContract.WeatherEntry.COLUMN_TEMPERATURE, 11.3);
         cv1.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_ICON, "cloud");
         cv1.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_DESCRIPTION, "Cloud");
         cv1.put(WeatherContract.WeatherEntry.COLUMN_WIND_DIRECTION, 270);
@@ -172,10 +169,7 @@ public class WeatherContentProvider extends ContentProvider {
         ContentValues cv2 = new ContentValues();
         cv2.put(WeatherContract.WeatherEntry._ID, 2);
         cv2.put(WeatherContract.WeatherEntry.COLUMN_TIMESTAMP, 1496534400);
-        cv2.put(WeatherContract.WeatherEntry.COLUMN_MIN_TEMPERATURE, 12.2);
-        cv2.put(WeatherContract.WeatherEntry.COLUMN_MAX_TEMPERATURE, 14.3);
-        cv2.put(WeatherContract.WeatherEntry.COLUMN_HUMIDITY, 75);
-        cv2.put(WeatherContract.WeatherEntry.COLUMN_PRESSURE, 1015.5);
+        cv2.put(WeatherContract.WeatherEntry.COLUMN_TEMPERATURE, 12.2);
         cv2.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_ICON, "cloud");
         cv2.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_DESCRIPTION, "Cloud");
         cv2.put(WeatherContract.WeatherEntry.COLUMN_WIND_DIRECTION, 270);
@@ -183,10 +177,7 @@ public class WeatherContentProvider extends ContentProvider {
 
         ContentValues cv3 = new ContentValues();
         cv3.put(WeatherContract.WeatherEntry.COLUMN_TIMESTAMP, 1496530800);
-        cv3.put(WeatherContract.WeatherEntry.COLUMN_MIN_TEMPERATURE, 11.3);
-        cv3.put(WeatherContract.WeatherEntry.COLUMN_MAX_TEMPERATURE, 14.3);
-        cv3.put(WeatherContract.WeatherEntry.COLUMN_HUMIDITY, 75);
-        cv3.put(WeatherContract.WeatherEntry.COLUMN_PRESSURE, 1015.5);
+        cv3.put(WeatherContract.WeatherEntry.COLUMN_TEMPERATURE, 11.3);
         cv3.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_ICON, "cloud");
         cv3.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_DESCRIPTION, "Cloud");
         cv3.put(WeatherContract.WeatherEntry.COLUMN_WIND_DIRECTION, 270);
@@ -194,10 +185,7 @@ public class WeatherContentProvider extends ContentProvider {
 
         ContentValues cv4 = new ContentValues();
         cv4.put(WeatherContract.WeatherEntry.COLUMN_TIMESTAMP, 1496630801);
-        cv4.put(WeatherContract.WeatherEntry.COLUMN_MIN_TEMPERATURE, 14.6);
-        cv4.put(WeatherContract.WeatherEntry.COLUMN_MAX_TEMPERATURE, 15.6);
-        cv4.put(WeatherContract.WeatherEntry.COLUMN_HUMIDITY, 75);
-        cv4.put(WeatherContract.WeatherEntry.COLUMN_PRESSURE, 1015.5);
+        cv4.put(WeatherContract.WeatherEntry.COLUMN_TEMPERATURE, 14.6);
         cv4.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_ICON, "cloud");
         cv4.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_DESCRIPTION, "Cloud");
         cv4.put(WeatherContract.WeatherEntry.COLUMN_WIND_DIRECTION, 270);
