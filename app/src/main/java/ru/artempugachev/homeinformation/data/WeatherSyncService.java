@@ -5,10 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
 import kotlin.jvm.Synchronized;
 import ru.artempugachev.homeinformation.BuildConfig;
 import ru.artempugachev.homeinformation.weather.Coordinate;
-import ru.artempugachev.homeinformation.weather.DarkSkyProvider;
+import ru.artempugachev.homeinformation.weather.Weather;
 import ru.artempugachev.homeinformation.weather.WeatherData;
 
 /**
@@ -45,7 +49,14 @@ class WeatherSyncService extends IntentService {
         DarkSkyProvider darkSkyProvider = new DarkSkyProvider(BuildConfig.DARK_SKY_API_KEY);
 
         // todo fetch for real coordinates
-        WeatherData weatherData = darkSkyProvider.fetchWeatherData(new Coordinate("59.93", "30.29"))
+        Weather.WeatherData weatherData = null;
+        try {
+            weatherData = darkSkyProvider.fetchWeatherData(new Coordinate("59.93", "30.29"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         if (weatherData != null) {
             val dataProvider = DataProvider(context)

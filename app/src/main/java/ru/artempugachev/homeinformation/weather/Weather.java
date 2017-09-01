@@ -50,26 +50,27 @@ public class Weather {
 
         return cv;
     }
-}
 
+    /**
+     * Data class only for databinding
+     * */
+    public class WeatherData {
+        private int timestamp;
+        private double minTemp;
+        private double maxTemp;
+        private int weatherIcon;
+        private String weatherDescription;
+        private Wind wind;
 
-/**
- * Data class only for databinding
- * */
-class WeatherData {
-    private int timestamp;
-    private double minTemp;
-    private double maxTemp;
-    private int weatherIcon;
-    private String weatherDescription;
-    private Wind wind;
-
-    public WeatherData(int timestamp, double minTemp, double maxTemp, int weatherIcon, String weatherDescription, Wind wind) {
-        this.timestamp = timestamp;
-        this.minTemp = minTemp;
-        this.maxTemp = maxTemp;
-        this.weatherIcon = weatherIcon;
-        this.weatherDescription = weatherDescription;
-        this.wind = wind;
+        public WeatherData(int timestamp, double minTemp, double maxTemp, int weatherIcon, String weatherDescription, Wind wind) {
+            this.timestamp = timestamp;
+            this.minTemp = minTemp;
+            this.maxTemp = maxTemp;
+            this.weatherIcon = weatherIcon;
+            this.weatherDescription = weatherDescription;
+            this.wind = wind;
+        }
     }
 }
+
+
