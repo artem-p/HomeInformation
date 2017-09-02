@@ -52,7 +52,7 @@ public class WeatherSyncService extends IntentService {
     }
 
     synchronized
-    private static void syncWeather(final Context context) {
+    public static void syncWeather(final Context context) {
         DarkSkyApiInterface darkSkyApiInterface = DarkSkyApiClient.getClient().create(DarkSkyApiInterface.class);
 
 
