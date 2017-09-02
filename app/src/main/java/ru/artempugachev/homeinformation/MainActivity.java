@@ -29,8 +29,8 @@ import com.google.android.gms.location.LocationServices;
 
 import ru.artempugachev.homeinformation.data.WeatherContract;
 import ru.artempugachev.homeinformation.data.WeatherSyncJobInitializer;
+import ru.artempugachev.homeinformation.data.WeatherSyncService;
 
-import static ru.artempugachev.homeinformation.data.WeatherSyncServiceKt.startWeatherSyncNow;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         WeatherSyncJobInitializer weatherSyncJobInitializer = new WeatherSyncJobInitializer();
         weatherSyncJobInitializer.scheduleWeatherSyncJobService(this);
-        startWeatherSyncNow(this);
+        WeatherSyncService.startWeatherSyncNow(this);
 
     }
 
@@ -312,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor != null && cursor.moveToFirst()) {
             double curTemp = cursor.getDouble(cursor.getColumnIndex(
-                    WeatherContract.WeatherEntry.COLUMN_MIN_TEMPERATURE));
+                    WeatherContract.WeatherEntry.COLUMN_TEMPERATURE));
             curTempTextView.setText(getString(R.string.format_temp, curTemp));
         }
     }
