@@ -1,10 +1,15 @@
 package ru.artempugachev.homeinformation.data.api;
 
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import ru.artempugachev.homeinformation.data.model.DarkSkyResponse;
+
 /**
  * Retrofit endpoints for darksky
  */
 
 public interface DarkSkyApiInterface {
-    // todo query is https://api.darksky.net/forecast/c95722ae96802296ed9c6f4d57747b77/37.8267,-122.4233
-    // todo how to define endpoint for such a query
+    @GET("{lat}, {lon}")
+    Call<DarkSkyResponse> getCurrentWeatherAndForecast(@Path("lat") double lat, @Path("lon") double lon);
 }
