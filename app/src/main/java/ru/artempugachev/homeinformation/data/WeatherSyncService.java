@@ -4,12 +4,21 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.artempugachev.homeinformation.BuildConfig;
+import ru.artempugachev.homeinformation.data.api.DarkSkyApiClient;
+import ru.artempugachev.homeinformation.data.api.DarkSkyApiInterface;
+import ru.artempugachev.homeinformation.data.model.DarkSkyResponse;
 import ru.artempugachev.homeinformation.weather.Coordinate;
 import ru.artempugachev.homeinformation.data.model.Weather;
 
@@ -43,32 +52,42 @@ public class WeatherSyncService extends IntentService {
     }
 
     synchronized
-    private static void syncWeather(Context context) {
-        DarkSkyProvider darkSkyProvider = new DarkSkyProvider(BuildConfig.DARK_SKY_API_KEY);
+    private static void syncWeather(final Context context) {
+        DarkSkyApiInterface darkSkyApiInterface = DarkSkyApiClient.getClient().create(DarkSkyApiInterface.class);
+
 
         // todo fetch for real coordinates
-        Weather.WeatherData weatherData = null;
-        try {
-            weatherData = darkSkyProvider.fetchWeatherData(new Coordinate("59.93", "30.29"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Call<DarkSkyResponse> darkSkyCall = darkSkyApiInterface.getCurrentWeatherAndForecast(59.93, 30.29);
 
-        if (weatherData != null) {
-            val dataProvider = DataProvider(context)
-            dataProvider.deleteData()
-            val rowsInserted = dataProvider.writeWeather(weatherData)
-        }
+        darkSkyCall.enqueue(new Callback<DarkSkyResponse>() {
+            @Override
+            public void onResponse(Call<DarkSkyResponse> call, Response<DarkSkyResponse> response) {
+                if (response.isSuccessful()) {
+                    Weather currentWeather = response.body().getCurrentWeather();
+                    DataProvider dataProvider = new DataProvider(context);
+                    dataProvider.deleteData();
+
+                    List<Weather> weatherList = new ArrayList<Weather>();
+                    weatherList.add(currentWeather);
+                    dataProvider.writeWeather(weatherList);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DarkSkyResponse> call, Throwable throwable) {
+                // todo show toast in main activity
+                // todo standard approach via interface
+            }
+        });
+    }
+
+    public static void startWeatherSyncNow(Context context) {
+        Intent syncIntent = new Intent(context, WeatherSyncService.class);
+        context.startService(syncIntent);
     }
 }
 
 
 
 
-    fun startWeatherSyncNow(context: Context) {
-        val syncIntent = Intent(context, WeatherSyncService::class.java)
-        context.startService(syncIntent)
-    }
 
