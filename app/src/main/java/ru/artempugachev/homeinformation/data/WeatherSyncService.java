@@ -17,6 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.artempugachev.homeinformation.BuildConfig;
+import ru.artempugachev.homeinformation.R;
 import ru.artempugachev.homeinformation.data.api.DarkSkyApiClient;
 import ru.artempugachev.homeinformation.data.api.DarkSkyApiInterface;
 import ru.artempugachev.homeinformation.data.model.DarkSkyResponse;
@@ -59,8 +60,10 @@ public class WeatherSyncService extends IntentService {
         DarkSkyApiInterface darkSkyApiInterface = DarkSkyApiClient.getClient().create(DarkSkyApiInterface.class);
 
 
+        String units = context.getResources().getString(R.string.units_si); // todo get units from prefs
+
         // todo fetch for real coordinates
-        Call<DarkSkyResponse> darkSkyCall = darkSkyApiInterface.getCurrentWeatherAndForecast(59.93, 30.29);
+        Call<DarkSkyResponse> darkSkyCall = darkSkyApiInterface.getCurrentWeatherAndForecast(59.93, 30.29, units);
 
         darkSkyCall.enqueue(new Callback<DarkSkyResponse>() {
             @Override

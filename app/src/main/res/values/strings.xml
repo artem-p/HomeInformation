@@ -8,4 +8,7 @@
     <string name="lon_par" translatable="false">lon_par</string>
     <string name="no_calendar_events">No calendar events</string>
     <string name="format_temp" translatable="false"> %1.0f °</string>
+    <string name="units_si" translatable="false">si</string>
+    <string name="units_us" translatable="false">us</string>
+
 </resources>
