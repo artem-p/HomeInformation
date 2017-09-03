@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -29,6 +30,8 @@ import ru.artempugachev.homeinformation.data.model.Weather;
  */
 
 public class WeatherSyncService extends IntentService {
+    private static final String TAG = WeatherSyncService.class.getSimpleName();
+
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *
@@ -75,6 +78,7 @@ public class WeatherSyncService extends IntentService {
 
             @Override
             public void onFailure(Call<DarkSkyResponse> call, Throwable throwable) {
+                Log.d(TAG, throwable.getLocalizedMessage());
                 // todo show toast in main activity
                 // todo standard approach via interface
             }

@@ -22,14 +22,14 @@ public final class DarkSkyResponse {
     private Weather currentWeather;
 
     @SerializedName("hourly")
-    private List<Weather> hourly;
+    private HourlyWeather hourlyWeather;
 
-    public DarkSkyResponse(double latitude, double longitude, String timezone, Weather currentWeather, List<Weather> hourly) {
+    public DarkSkyResponse(double latitude, double longitude, String timezone, Weather currentWeather, HourlyWeather hourlyWeather) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.timezone = timezone;
         this.currentWeather = currentWeather;
-        this.hourly = hourly;
+        this.hourlyWeather = hourlyWeather;
     }
 
     public double getLatitude() {
@@ -64,11 +64,11 @@ public final class DarkSkyResponse {
         this.currentWeather = currentWeather;
     }
 
-    public List<Weather> getHourly() {
-        return hourly;
+    public HourlyWeather getHourlyWeather() {
+        return hourlyWeather;
     }
 
-    public void setHourly(List<Weather> hourly) {
-        this.hourly = hourly;
+    public void setHourlyWeather(HourlyWeather hourlyWeather) {
+        this.hourlyWeather = hourlyWeather;
     }
 }
