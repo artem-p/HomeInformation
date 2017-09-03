@@ -15,6 +15,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextClock;
@@ -26,6 +27,8 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+
+import java.util.Locale;
 
 import ru.artempugachev.homeinformation.data.WeatherContract;
 import ru.artempugachev.homeinformation.data.WeatherSyncJobInitializer;
@@ -160,9 +163,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private void setUpDateView() {
         TextClock dateView = (TextClock) findViewById(R.id.dateView);
-        DateText dateText = new DateText();
-        dateView.setFormat12Hour(dateText.print());
-        dateView.setFormat24Hour(dateText.print());
+
+        String skeleton = "EEEEMMMMd";
+        String formatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), skeleton);
+        dateView.setFormat12Hour(formatPattern);
+        dateView.setFormat24Hour(formatPattern);
     }
 
     private void hideStatusBar() {
