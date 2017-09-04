@@ -11,6 +11,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -69,12 +70,24 @@ public class WeatherSyncService extends IntentService {
             @Override
             public void onResponse(Call<DarkSkyResponse> call, Response<DarkSkyResponse> response) {
                 if (response.isSuccessful()) {
+                    // write current weather and forecast to db
+                    // current weather is first record
                     Weather currentWeather = response.body().getCurrentWeather();
-                    DataProvider dataProvider = new DataProvider(context);
-                    dataProvider.deleteData();
-
                     List<Weather> weatherList = new ArrayList<Weather>();
                     weatherList.add(currentWeather);
+
+                    List<Weather> forecasts = response.body().getHourlyWeather().getForecast();
+
+                    // forecast main contain at least 1 element with time less than current
+                    // remove it
+                    for (Weather forecast : forecasts) {
+                        if (forecast.getTimestamp() > currentWeather.getTimestamp()) {
+                            weatherList.add(forecast);
+                        }
+                    }
+
+                    DataProvider dataProvider = new DataProvider(context);
+                    dataProvider.deleteData();
                     dataProvider.writeWeather(weatherList);
                 }
             }

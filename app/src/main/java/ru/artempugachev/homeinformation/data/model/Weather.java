@@ -49,6 +49,10 @@ public class Weather {
 
         return cv;
     }
+
+    public int getTimestamp() {
+        return timestamp;
+    }
 }
 
 

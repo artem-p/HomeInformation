@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Dark sky provides hourly weather. It is summary for today and list of weather data up to 48 hours
+ * Dark sky provides hourly forecast. It is summary for today and list of forecast data up to 48 hours
  */
 
 public class HourlyWeather {
@@ -16,11 +16,15 @@ public class HourlyWeather {
     private String icon;
 
     @SerializedName("data")
-    private List<Weather> weather;
+    private List<Weather> forecast;
 
-    public HourlyWeather(String summary, String icon, List<Weather> weather) {
+    public HourlyWeather(String summary, String icon, List<Weather> forecast) {
         this.summary = summary;
         this.icon = icon;
-        this.weather = weather;
+        this.forecast = forecast;
+    }
+
+    public List<Weather> getForecast() {
+        return forecast;
     }
 }
