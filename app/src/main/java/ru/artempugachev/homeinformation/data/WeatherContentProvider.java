@@ -1,6 +1,7 @@
 package ru.artempugachev.homeinformation.data;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -13,6 +14,7 @@ import android.support.annotation.Nullable;
 public class WeatherContentProvider extends ContentProvider {
     public static final int CODE_WEATHER = 100;
     public static final int CODE_WEATHER_WITH_DATE = 101;
+    public static final int CODE_SUMMARY = 200;
 
     private WeatherDbHelper dbHelper;
     private UriMatcher uriMatcher = buildUriMatcher();
@@ -22,6 +24,7 @@ public class WeatherContentProvider extends ContentProvider {
         String authority = WeatherContract.AUTHORITY;
         matcher.addURI(authority, WeatherContract.PATH_WEATHER, CODE_WEATHER);
         matcher.addURI(authority, WeatherContract.PATH_WEATHER + "/#", CODE_WEATHER_WITH_DATE);
+        matcher.addURI(authority, WeatherContract.PATH_SUMMARY, CODE_SUMMARY);
         return matcher;
     }
 
@@ -60,6 +63,11 @@ public class WeatherContentProvider extends ContentProvider {
                 break;
             }
 
+            case CODE_SUMMARY: {
+                cursor = db.query(WeatherContract.Summary.TABLE_NAME, null, null, null, null, null, null);
+                break;
+            }
+
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
             }
@@ -78,7 +86,27 @@ public class WeatherContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        return null;
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        Uri returnUri;
+        switch (uriMatcher.match(uri)) {
+            case CODE_SUMMARY:
+                long id = db.insert(WeatherContract.Summary.TABLE_NAME, null, values);
+                if (id > 0) {
+                    returnUri = ContentUris.withAppendedId(WeatherContract.SUMMARY_URI, id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                }
+
+                break;
+
+            default: {
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+            }
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+        return returnUri;
     }
 
 
@@ -90,7 +118,7 @@ public class WeatherContentProvider extends ContentProvider {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         switch (uriMatcher.match(uri)) {
-            case CODE_WEATHER: {
+            case CODE_WEATHER:
                 db.beginTransaction();
                 int rowsInserted = 0;
                 try {
@@ -107,7 +135,6 @@ public class WeatherContentProvider extends ContentProvider {
                     db.endTransaction();
                 }
                 return rowsInserted;
-            }
 
             default: {
                 return super.bulkInsert(uri, values);
@@ -125,7 +152,7 @@ public class WeatherContentProvider extends ContentProvider {
         String selStr = selection != null ? selection : "1";
 
         switch (uriMatcher.match(uri)) {
-            case CODE_WEATHER: {
+            case CODE_WEATHER:
                 numRowsDeleted = dbHelper.getWritableDatabase().delete(
                         WeatherContract.WeatherEntry.TABLE_NAME,
                         selStr,
@@ -133,7 +160,15 @@ public class WeatherContentProvider extends ContentProvider {
                 );
 
                 break;
-            }
+
+            case CODE_SUMMARY:
+                numRowsDeleted = dbHelper.getWritableDatabase().delete(
+                        WeatherContract.Summary.TABLE_NAME,
+                        selStr,
+                        selectionArgs
+                );
+
+                break;
 
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

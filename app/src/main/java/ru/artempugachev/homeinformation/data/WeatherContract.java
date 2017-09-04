@@ -12,8 +12,12 @@ public final class WeatherContract {
     public static final String  AUTHORITY = "ru.artempugachev.homeinformation";
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
     public static final String  PATH_WEATHER = "weather";
+    public static final String PATH_SUMMARY = "summary";
     public static final Uri WEATHER_URI = BASE_CONTENT_URI.buildUpon()
             .appendPath(PATH_WEATHER)
+            .build();
+    public static final Uri SUMMARY_URI = BASE_CONTENT_URI.buildUpon()
+            .appendPath(PATH_SUMMARY)
             .build();
 
     public static class WeatherEntry implements BaseColumns {
