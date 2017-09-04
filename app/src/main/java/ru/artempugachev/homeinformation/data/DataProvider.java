@@ -71,6 +71,7 @@ public class DataProvider {
      * */
     public void deleteData() {
         context.getContentResolver().delete(WeatherContract.WEATHER_URI, null, null);
+        context.getContentResolver().delete(WeatherContract.SUMMARY_URI, null, null);
     }
 
     /**
