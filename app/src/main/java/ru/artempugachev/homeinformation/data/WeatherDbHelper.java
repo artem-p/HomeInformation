@@ -22,6 +22,12 @@ public final class WeatherDbHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_WEATHER_TABLE = "DROP TABLE IF EXISTS " + WeatherContract.WeatherEntry.TABLE_NAME;
 
     private static final String SQL_CREATE_SUMMARY_TABLE = "CREATE TABLE " +
+            WeatherContract.Summary.TABLE_NAME + " (" +
+            WeatherContract.Summary.COLUMN_HOURLY_ICON + " TEXT NOT NULL, " +
+            WeatherContract.Summary.COLUMN_DAILY_ICON + " TEXT NOT NULL" +
+            ");";
+
+    private static final String SQL_DELETE_SUMMARY_TABLE = "DROP TABLE IF EXISTS " + WeatherContract.Summary.TABLE_NAME;
 
     public WeatherDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -31,12 +37,14 @@ public final class WeatherDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_WEATHER_TABLE);
+        db.execSQL(SQL_CREATE_SUMMARY_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // we use database only for cache, so just drop and recreate it
         db.execSQL(SQL_DELETE_WEATHER_TABLE);
+        db.execSQL(SQL_DELETE_SUMMARY_TABLE);
         onCreate(db);
     }
 }
