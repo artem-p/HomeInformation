@@ -38,6 +38,7 @@ import ru.artempugachev.homeinformation.data.WeatherSyncService;
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LoaderManager.LoaderCallbacks<Cursor> {
     private final static int WEATHER_LOADER_ID = 42;
+    public static final int SUMMARY_LOADER_ID =4242;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private final static int REQUEST_LOCATION = 100;
 
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private SharedPreferences sharedPreferences;
     private TextView curTempTextView;
     private ProgressBar progressBar;
-    private TextView dailySummaryIcon;
+    private TextView hourlySummaryIcon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
         getSupportLoaderManager().initLoader(WEATHER_LOADER_ID, null, this);
+        getSupportLoaderManager().initLoader(SUMMARY_LOADER_ID, null, this);
+
 
         WeatherSyncJobInitializer weatherSyncJobInitializer = new WeatherSyncJobInitializer();
         weatherSyncJobInitializer.scheduleWeatherSyncJobService(this);
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private void setUpViews() {
         curTempTextView = (TextView) findViewById(R.id.curTempTextView);
         progressBar = (ProgressBar) findViewById(R.id.pb_weather);
-        dailySummaryIcon = (TextView) findViewById(R.id.daySummaryIcon);
+        hourlySummaryIcon = (TextView) findViewById(R.id.daySummaryIcon);
         setUpDateView();
     }
 
@@ -301,11 +304,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
         switch (loaderId) {
-            case WEATHER_LOADER_ID: {
+            case WEATHER_LOADER_ID:
                 return new CursorLoader(this,
                         WeatherContract.WEATHER_URI,
                         null, null, null, null);
-            }
+            case SUMMARY_LOADER_ID:
+                return new CursorLoader(this, WeatherContract.SUMMARY_URI,
+                        null, null, null, null);
 
             default: {
                 throw new RuntimeException("Loader not implemented: " + loaderId);
@@ -316,11 +321,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        if (cursor != null && cursor.moveToFirst()) {
-            double curTemp = cursor.getDouble(cursor.getColumnIndex(
-                    WeatherContract.WeatherEntry.COLUMN_TEMPERATURE));
-            curTempTextView.setText(getString(R.string.format_temp, curTemp));
+        int loaderId = loader.getId();
+        switch (loaderId) {
+            case WEATHER_LOADER_ID:
+                if (cursor != null && cursor.moveToFirst()) {
+                    double curTemp = cursor.getDouble(cursor.getColumnIndex(
+                            WeatherContract.WeatherEntry.COLUMN_TEMPERATURE));
+                    curTempTextView.setText(getString(R.string.format_temp, curTemp));
+                }
+                break;
+
+            case SUMMARY_LOADER_ID:
+                if (cursor != null && cursor.moveToFirst()) {
+                    String hourlyIconId = cursor.getString(cursor.getColumnIndex(WeatherContract.Summary.COLUMN_HOURLY_ICON));
+                    hourlySummaryIcon.setText(hourlyIconId);
+                }
+                break;
+
+            default:
+                throw new RuntimeException("Loader not implemented: " + loaderId);
         }
+
     }
 
 
