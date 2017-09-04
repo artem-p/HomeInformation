@@ -72,4 +72,14 @@ public class DataProvider {
     public void deleteData() {
         context.getContentResolver().delete(WeatherContract.WEATHER_URI, null, null);
     }
+
+    /**
+     * Write hourly and daily summary
+     * */
+    public void writeSummary(String hourlyIcon, String dailyIcon) {
+        ContentValues cv = new ContentValues();
+        cv.put(WeatherContract.Summary.COLUMN_HOURLY_ICON, hourlyIcon);
+        cv.put(WeatherContract.Summary.COLUMN_DAILY_ICON, dailyIcon);
+        context.getContentResolver().insert(WeatherContract.SUMMARY_URI, cv);
+    }
 }

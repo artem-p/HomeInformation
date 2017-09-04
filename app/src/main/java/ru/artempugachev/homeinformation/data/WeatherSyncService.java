@@ -86,9 +86,13 @@ public class WeatherSyncService extends IntentService {
                         }
                     }
 
+                    String hourlyIcon = response.body().getHourlyWeather().getIcon();
+
                     DataProvider dataProvider = new DataProvider(context);
                     dataProvider.deleteData();
                     dataProvider.writeWeather(weatherList);
+                    // todo write daily icon
+                    dataProvider.writeSummary(hourlyIcon, "");
                 }
             }
 

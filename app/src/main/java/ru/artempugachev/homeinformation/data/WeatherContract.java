@@ -30,6 +30,10 @@ public final class WeatherContract {
         public static final String COLUMN_WIND_SPEED = "wind_speed";
     }
 
+    /**
+     * Summary - description of weather (hourly and daily) with icons
+     * Use only icons for now
+     * */
     public static class Summary implements BaseColumns {
         public static final String TABLE_NAME = "summary";
         public static final String COLUMN_HOURLY_ICON = "icon_hourly";

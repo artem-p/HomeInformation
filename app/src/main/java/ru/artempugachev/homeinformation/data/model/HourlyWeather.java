@@ -27,4 +27,8 @@ public class HourlyWeather {
     public List<Weather> getForecast() {
         return forecast;
     }
+
+    public String getIcon() {
+        return icon;
+    }
 }
