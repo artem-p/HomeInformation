@@ -25,4 +25,11 @@ public final class WeatherContract {
         public static final String COLUMN_WIND_DIRECTION = "wind_direction";
         public static final String COLUMN_WIND_SPEED = "wind_speed";
     }
+
+    public static class Summary implements BaseColumns {
+        public static final String TABLE_NAME = "summary";
+        public static final String COLUMN_HOURLY_ICON = "icon_hourly";
+        public static final String COLUMN_DAILY_ICON = "icon_daily";
+    }
+
 }

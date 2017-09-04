@@ -19,8 +19,9 @@ public final class WeatherDbHelper extends SQLiteOpenHelper {
             WeatherContract.WeatherEntry.COLUMN_WIND_SPEED + " REAL NOT NULL, " +
             " UNIQUE" + "(" + WeatherContract.WeatherEntry.COLUMN_TIMESTAMP + ")" + " ON CONFLICT REPLACE);";
 
-    private static final String  SQL_DELETE_TABLE = "DROP TABLE IF EXISTS " + WeatherContract.WeatherEntry.TABLE_NAME;
+    private static final String SQL_DELETE_WEATHER_TABLE = "DROP TABLE IF EXISTS " + WeatherContract.WeatherEntry.TABLE_NAME;
 
+    private static final String SQL_CREATE_SUMMARY_TABLE = "CREATE TABLE " +
 
     public WeatherDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,7 +36,7 @@ public final class WeatherDbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // we use database only for cache, so just drop and recreate it
-        db.execSQL(SQL_DELETE_TABLE);
+        db.execSQL(SQL_DELETE_WEATHER_TABLE);
         onCreate(db);
     }
 }
