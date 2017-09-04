@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private SharedPreferences sharedPreferences;
     private TextView curTempTextView;
     private ProgressBar progressBar;
-
+    private TextView dailySummaryIcon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private void setUpViews() {
         curTempTextView = (TextView) findViewById(R.id.curTempTextView);
         progressBar = (ProgressBar) findViewById(R.id.pb_weather);
+        dailySummaryIcon = (TextView) findViewById(R.id.daySummaryIcon);
         setUpDateView();
     }
 

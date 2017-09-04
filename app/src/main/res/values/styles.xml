@@ -23,6 +23,11 @@
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display4</item>
     </style>
 
+    <style name="daily">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display1</item>
+    </style>
+
     <style name="forecast">
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">18sp</item>

@@ -49,4 +49,18 @@
             />
     </FrameLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/day"
+        style="@style/daily"
+        />
+
+    <TextView
+        android:id="@+id/daySummaryIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/daily"
+        />
+
 </LinearLayout>
