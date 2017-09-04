@@ -168,8 +168,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private void setUpDateView() {
         TextClock dateView = (TextClock) findViewById(R.id.dateView);
 
-        String skeleton = "EEEEMMMMd";
-        String formatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), skeleton);
+
+        // todo getBestDateTimePattern needs minSdk 18
+        // unfortunately, tablet i use for testing only have 17
+//        String skeleton = "EEEEMMMMd";
+//        String formatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), skeleton);
+
+        String formatPattern = "EEEE, d MMMM";
         dateView.setFormat12Hour(formatPattern);
         dateView.setFormat24Hour(formatPattern);
     }
